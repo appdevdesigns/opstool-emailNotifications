@@ -2,29 +2,28 @@
 steal(
         // List your Controller's dependencies here:
         'appdev',
-//        '/opstools/opstool-emailNotifications/models/[modelName].js',
+//        '/opstools/EmailNotifications/models/[modelName].js',
 //        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
-//        '/opstools/opstool-emailNotifications/views/opstool-emailNotifications/opstool-emailNotifications.ejs',
+//        '/opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
 function(){
 
-    AD.Control.OpsTool.extend('opstool-emailNotifications', {
+    AD.Control.OpsTool.extend('EmailNotifications', {
 
 
         init: function (element, options) {
             var self = this;
             options = AD.defaults({
-                    templateDOM: '//opstools/opstool-emailNotifications/views/opstool-emailNotifications/opstool-emailNotifications.ejs',
-                    resize_notification: 'opstool-emailNotifications.resize',
+                    templateDOM: '//opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
+                    resize_notification: 'EmailNotifications.resize',
                     tool:null   // the parent opsPortal Tool() object
             }, options);
             this.options = options;
 
             // Call parent init
-            //AD.classes.opsportal.OpsTool.prototype.init.apply(this, arguments);
             this._super(element, options);
 
 
-            this.dataSource = this.options.dataSource; 
+            // this.dataSource = this.options.dataSource; 
 
             this.initDOM();
         },
