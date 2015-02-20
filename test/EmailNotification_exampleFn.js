@@ -92,7 +92,7 @@ describe('test EmailNotification.exampleFn()',function(){
             assert.ok(true, ' --> should have been called. ');
             assert.isObject(data,' --> data was an object');
             assert.property(data, 'key', ' --> had our Key field ');
-            assert.notProperty(data, 'invalid', ' --> did not have invalid ');
+            assert.notProperty(data, 'invalid', ' --> did not have property .invalid ');
 
 
             // return the original objects

@@ -110,7 +110,7 @@ exampleFn: function(){
     var dfd = AD.sal.Deferred();
 
 
-    // no do your Async Operation here:
+    // now do your Async Operation here:
 
 
     // Model.Template.findOne({ key:'CoolTemplate'})
@@ -121,7 +121,7 @@ exampleFn: function(){
     //    dfd.reject(err);
     // })
 
-    // for the example I'm just resolving it:
+    // for this example I'm just resolving it:
     dfd.resolve({ key:'CoolTemplate', date:'1970-01-01' });
 
 
