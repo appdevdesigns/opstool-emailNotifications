@@ -30,4 +30,5 @@ node_modules
 
 # ignore any of the base mockup files:
 assets/mockups/*
+assets/mockups.zip
 
