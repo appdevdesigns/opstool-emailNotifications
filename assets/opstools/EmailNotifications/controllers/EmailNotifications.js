@@ -2,13 +2,15 @@
 steal(
         // List your Controller's dependencies here:
         'appdev',
-//        '/opstools/EmailNotifications/models/[modelName].js',
-//        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
-//        '/opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
+        'opstools/EmailNotifications/controllers/Portal.js',
+        'opstools/EmailNotifications/controllers/Wizard.js',
 function(){
 
     AD.Control.OpsTool.extend('EmailNotifications', {
 
+        CONST: {
+            CREATE_NOTIFICATION: 'en-create-notification'
+        },
 
         init: function (element, options) {
             var self = this;
@@ -22,10 +24,53 @@ function(){
             // Call parent init
             this._super(element, options);
 
-
-            // this.dataSource = this.options.dataSource; 
+            this.controllers = {};       // the controllers we are managing
 
             this.initDOM();
+            this.controllersAttach();
+        },
+
+
+
+        /*
+         * controllersAttach
+         * 
+         * attach all our sub controllers to the DOM
+         *
+         * @return {undefined}
+         */
+        controllersAttach: function() {
+            var self = this;
+
+            // Portal Controller
+            var Portal = AD.Control.get('opstools.EmailNotifications.Portal');
+            this.controllers.Portal = new Portal( this.element.find('.en-portal'), {
+                triggerCreateNotification:this.CONST.CREATE_NOTIFICATION
+            });
+            this.controllers.Portal.on(this.CONST.CREATE_NOTIFICATION, function() {
+                self.controllersShow('Wizard');
+            })
+
+
+            // Wizard Controller
+            var Wizard = AD.Control.get('opstools.EmailNotifications.Wizard');
+            this.controllers.Wizard = new Wizard(this.element.find('.en-wizard'));
+
+
+            this.controllersShow('Portal');
+        },
+
+
+
+        controllersShow: function( key ) {
+
+            for (var k in this.controllers) {
+                if (k == key) {
+                    this.controllers[k].show();
+                } else {
+                    this.controllers[k].hide();
+                }
+            }
         },
 
 
@@ -41,7 +86,7 @@ function(){
         '.ad-item-add click': function ($el, ev) {
 
             ev.preventDefault();
-        },
+        }
 
 
     });

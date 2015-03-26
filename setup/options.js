@@ -12,6 +12,17 @@
  *
  */
 module.exports = {
+
+    ignore:{
+
+        assets: {
+            'mockups':1,            // ignore the assets/mockups/  directory
+            'mockup.html':1,
+            'mockup_setup.js':1
+        }
+
+    }
+
 /*
 
      // list any directories that need to be created in the base sails path

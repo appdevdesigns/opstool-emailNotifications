@@ -204,6 +204,7 @@ header a:hover {
 	color: #fff;
 	}
 
+/*
 .table-notifications {
 	margin-top: 40px;
 	}
@@ -212,6 +213,7 @@ header a:hover {
 	float: left;
 	width: 100%;
 	}
+*/
 
 .bg-cell {
 	background:#eaeaea; 
@@ -219,6 +221,7 @@ header a:hover {
 	margin-bottom: 2px;
 	}
 
+/*
 .table-notifications th,
 .table-notifications td {
 	float: left;
@@ -229,6 +232,7 @@ header a:hover {
 	margin: 0px 12px;
 	display: inline-block;
 	}
+*/
 
 .btn-black {
 	margin-top: 15px;
@@ -434,6 +438,7 @@ header a:hover {
 
 
 /* -- Modal Popup CSS -- */
+/*
 .modal-backdrop {
 	background: none;
 	}
@@ -473,6 +478,7 @@ header a:hover {
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 	padding: 15px 25px 0px 25px;
 	}
+*/
 
 .modal-content .form-horizontal .control-label {
 	text-align: left;
@@ -551,6 +557,7 @@ header a:hover {
 	.modal-header .close {margin-right: -6px; margin-top: -6px;}
 }
 
+/*
 @media (max-width: 550px) {
 	.table-notifications, 
 	.table-notifications thead, 
@@ -574,6 +581,7 @@ header a:hover {
 	.tab-inner .form-group {padding: 0px 10px;}
 	.table-notifications td.text-center {text-align: left;}
 }
+*/
 
 @media (max-width: 359px) {
 	.container-fluid {padding-right: 0px; padding-left: 0px;}

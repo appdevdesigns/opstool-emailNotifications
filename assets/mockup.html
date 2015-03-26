@@ -46,11 +46,11 @@
 
 
 
-    <!--  Base Portal Page with the [Create Notifications] button:  -->
+        <!--  Base Portal Page with the [Create Notifications] button:  -->
     <div class="page-wrap mockup-display en-portal">     
       <div class="container-fluid">
         <div class="col-xs-12 text-right">
-          <a  mockup-show="en-wizard" class="btn btn-primary btn-grey">Create Notifications</a>
+          <a  mockup-show="en-wizard" class="btn btn-primary btn-grey en-portal-newNotification">Create Notifications</a>
         </div>
       </div><!-- /.container-fluid -->
     </div><!-- /.page-wrap -->
@@ -59,7 +59,7 @@
 
 
     <!-- Wizard -->
-    <div class="mockup-display en-wizard en-formNotification">
+    <div class="mockup-display en-wizard en-wizard-recipients en-wizard-formNotification">
       <!-- Nav Bar -->
       <header class="navbar-fixed-top">       
         <nav class="navbar navbar-default">
@@ -74,11 +74,11 @@
             </div>
             <div class="collapse navbar-collapse" id="nav-header">
               <ul class="nav navbar-nav">
-                <li><a href="notifications.html">Recipients</a> <i class="fa fa-angle-right push-right"></i></li>
-                <li class="active"><a href="notification-info-basic.html">Setup</a> <i class="fa fa-angle-right push-right"></i></li>
-                <li><a href="#">Templates</a> <i class="fa fa-angle-right push-right"></i></li> 
-                <li><a href="#">Design</a> <i class="fa fa-angle-right push-right"></i></li>  
-                <li><a href="#">Confirm</a></li>                  
+                <li class="en-wiz-nav" panel="Recipients"><a >Recipients</a> <i class="fa fa-angle-right push-right"></i></li>
+                <li class="active en-wiz-nav" panel="Notifications"><a >Setup</a> <i class="fa fa-angle-right push-right"></i></li>
+                <li class="en-wiz-nav" panel="Templates" ><a >Templates</a> <i class="fa fa-angle-right push-right"></i></li> 
+                <li class="en-wiz-nav" panel="Design" ><a >Design</a> <i class="fa fa-angle-right push-right"></i></li>  
+                <li class="en-wiz-nav" panel="Confirm" ><a >Confirm</a></li>                  
               </ul>             
             </div><!-- /.navbar-collapse -->
         </nav><!-- /nav -->
@@ -86,7 +86,7 @@
       <!-- End Nav Bar -->
 
       <!-- Choose The Receipients panel -->
-      <div class="page-wrap mockup-display en-wizard">
+      <div class="page-wrap mockup-display en-wizard-recipients">
         <div class="container-fluid">
           <div class="col-lg-5 col-md-5 col-sm-6 form-search">
             <div class="input-group">
@@ -97,37 +97,39 @@
             </div><!-- /input-group -->
           </div><!-- /.col-lg-6 -->
           <div class="col-lg-8 col-md-9 col-sm-12">
-            <a href="#myModal" role="button" class="btn btn-list" data-toggle="modal">Create New List</a>
-            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                      </div>
-                      <div class="modal-body">
-                          <form class="form-horizontal" name="commentform" method="post" action="send_form_email_sleep_re.php">
-                              <div class="form-group">
-                                  <label class="control-label col-md-2 no-pd-right" for="listTitle">List Title:</label>
-                                  <div class="col-md-10">
-                                    <input type="text" class="form-control" id="listTitle" name="listTitle" placeholder="Enter List Title">
-                                  </div>
-                              </div>                        
-                              <div class="form-group">
-                                  <label class="control-label col-xs-12 text-left label-recipient" for="emailRecipients">Email Recipients:</label>
-                                  <div class="col-xs-12">
-                                      <textarea rows="6" class="form-control" id="emailRecipients" name="emailRecipients" placeholder="Enter email addressesseprated by a comma (,)"></textarea>
-                                  </div>
-                              </div>
-                              <div class="form-group block-btn">
-                                  <div class="col-md-12">
-                                      <button type="submit" value="Save" class="btn btn-save" id="send_btn"><i class="fa fa-check"></i> Save</button>
-                                  </div>
-                              </div>
-                          </form>
-                      </div><!-- End of Modal body -->
-                    </div><!-- End of Modal content -->
-                  </div><!-- End of Modal dialog -->
-              </div><!-- End of Modal -->
+            <a href="#EN-NewRecipientList" role="button" class="btn btn-list" data-toggle="modal">Create New List</a>
+            <div class="modal fade" id="EN-NewRecipientList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" >Create New Recipient List</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form-horizontal" name="commentform" method="post" action="send_form_email_sleep_re.php">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 no-pd-right" for="listTitle">List Title:</label>
+                            <div class="col-md-10">
+                              <input type="text" class="form-control" id="listTitle" name="listTitle" placeholder="Enter List Title">
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 text-left label-recipient" for="emailRecipients">Email Recipients:</label>
+                            <div class="col-xs-12">
+                                <textarea rows="6" class="form-control" id="emailRecipients" name="emailRecipients" placeholder="Enter email addressesseprated by a comma (,)"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </div><!-- .container -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn opsportal-btn opsportal-btn-dk" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary pull-right opsportal-btn">Save</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </div>
+          <div class="col-lg-8 col-md-9 col-sm-12">
             <table class="table-notifications" cellpadding="0" cellspacing="0" width="100%" data-height="300" data-toggle="table">
               <thead>
                 <tr>
@@ -136,26 +138,28 @@
                   <th width="30%"></th>
                 </tr>
               </thead>
-              <tr class="bg-cell">
-                <td width="40%"><input type="checkbox" /> All Administrators</td>
-                <td width="30%">1/12/2015</td>
-                <td width="30%" class="text-center">
-                  <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
-                  <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
-                </td>
-              </tr>
-              <tr class="bg-cell">
-                <td width="40%"><input type="checkbox" /> Finanace Team</td>
-                <td width="30%">1/115/2015</td>
-                <td width="30%" class="text-center">
-                  <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
-                  <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
-                </td>
-              </tr>
+              <tbody>
+                <tr >
+                  <td ><input type="checkbox" /> All Administrators</td>
+                  <td >1/12/2015</td>
+                  <td class="text-center">
+                    <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
+                    <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td ><input type="checkbox" /> Finanace Team</td>
+                  <td >1/115/2015</td>
+                  <td class="text-center">
+                    <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
+                    <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
+                  </td>
+                </tr>
+              </tbody>
             </table><!-- /.table-notifications -->
           </div><!-- /.col-xs-12 -->
           <div class="col-lg-8 col-md-9 col-sm-12 text-right btn-wrap">
-            <a mockup-show="en-formNotification" class="btn btn-default btn-black">Next <i class="fa fa-arrow-right"></i></a>
+            <a mockup-show="en-wizard-formNotification" class="btn btn-default btn-black en-wiz-recipients-next">Next <i class="fa fa-arrow-right"></i></a>
           </div><!-- /.col-xs-12 -->
         </div><!-- /.container-fluid -->
       </div><!-- /.page-wrap -->
@@ -163,7 +167,7 @@
 
 
       <!-- Form Notification -->
-      <div class="page-wrap mockup-display en-formNotification">
+      <div class="page-wrap mockup-display en-wizard-formNotification">
         <div class="container-fluid">
           <div class="col-xs-12">
             <h2>Notification Info</h2>
@@ -275,7 +279,7 @@
     </div>
 </div>
 
-<script type='text/javascript' src='mockups/steal/steal.js?../../../mockup_setup.js'></script>
+<script type='text/javascript' src='mockups/steal/steal.js?mockup_setup.js'></script>
 </body>
 
 </html>
