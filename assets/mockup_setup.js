@@ -102,8 +102,6 @@ steal(
 	////
 	//// Setup selctivity on this input:
 	////
-
-
 	var inputs = ['#image-tags'];
 	inputs.forEach(function(el){
 		var $el = $(el);
