@@ -6,16 +6,19 @@ steal(
     // Namespacing conventions:
     // AD.Model.extend('[application].[Model]', {static}, {instance} );  --> Object
     AD.Model.extend('opstools.EmailNotifications.ENRecipient', {
-/*
-        findAll: 'GET /opstool-emailNotifications/enrecipient',
-        findOne: 'GET /opstool-emailNotifications/enrecipient/{id}',
-        create:  'POST /opstool-emailNotifications/enrecipient',
-        update:  'PUT /opstool-emailNotifications/enrecipient/{id}',
-        destroy: 'DELETE /opstool-emailNotifications/enrecipient/{id}',
-        describe: function() {},    // returns an object describing the Model definition
-        fieldId: 'fieldName',       // which field is the ID
-        fieldLabel:'fieldName'      // which field is considered the Label
-*/
+		findAll: 'GET /opstool-emailNotifications/enrecipient',
+				findOne: 'GET /opstool-emailNotifications/enrecipient/{id}',
+				create:  'POST /opstool-emailNotifications/enrecipient',
+				update:  'PUT /opstool-emailNotifications/enrecipient/{id}',
+				destroy: 'DELETE /opstool-emailNotifications/enrecipient/{id}',
+				describe: function() {
+					return {
+							"title":"string",
+							"recipients":"text"
+						};
+				},
+				fieldId:'id',
+				fieldLabel:'title'
     },{
 /*
         // Already Defined:
@@ -24,5 +27,6 @@ steal(
         getLabel: function() {} // returns the defined label value
 */
     });
+
 
 });

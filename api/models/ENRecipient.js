@@ -8,14 +8,15 @@
 module.exports = {
 
   connection:"appdev_default",
+  tableName:"en_recipient",		// <-- namespace all your tables with 'en_' 	
 
-  tableName:"en_recipient",
 
   attributes: {
 
     title : { type: 'string' },
 
     recipients : { type: 'text' }
+   
   }
 };
 

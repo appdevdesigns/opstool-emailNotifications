@@ -15,6 +15,11 @@ body {
 .page-wrap {
 	margin: 50px 0px 30px 0px;
 	}
+	
+.page-wrap a,
+header a {
+	opacity:1 !important;
+	}
 
 .page-wrap h2 {
 	margin-bottom: 50px;
@@ -31,10 +36,6 @@ label {
 	border: 1px solid #cecece;
 	background: #eaeaea;
 	border-radius: 0px;
-	}
-
-.form-group {
-	margin-bottom: 30px;
 	}
 
 .tabs-left > .nav-tabs .active > a, 
@@ -68,6 +69,7 @@ header {
 	float: left;
 	width: 100%;
 	box-sizing:border-box;
+	top: 62px !important;
 	}
 
 header a {
@@ -89,11 +91,15 @@ header a:hover {
 	}
 
 .navbar-default .navbar-brand {
-	color: #d3d3d3;
+	color: #d3d3d3 !important;
+	position:relative;
+	z-index:999999;
 	}
 
-.navbar-default .navbar-brand:hover {
-	color: #fff;
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:active,
+.navbar-default .navbar-brand:focus {
+	color: #fff !important;
 	}
 
 .navbar-default {
@@ -120,7 +126,7 @@ header a:hover {
 
 .navbar-default .navbar-nav>li>a {
 	font-size: 16px;
-	color: #d3d3d3;
+	color: #d3d3d3 !important;
 	text-shadow: none;
 	margin: 0px 0px 0px 15px;
 	padding: 3px 5px;
@@ -132,7 +138,11 @@ header a:hover {
 	}
 
 .navbar-default .navbar-nav>li>a:hover {
-	color: #fff;
+	color: #fff !important;
+	}
+	
+.navbar-default .navbar-nav>li>a:active, .navbar-default .navbar-nav>li>a:focus {
+	color: #fff !important;
 	}
 
 .navbar-default .navbar-nav>li>i {
@@ -142,7 +152,7 @@ header a:hover {
 .navbar-default .navbar-nav>.active>a, 
 .navbar-default .navbar-nav>.active>a:focus, 
 .navbar-default .navbar-nav>.active>a:hover {
-	color: #fff;
+	color: #fff!important;
 	background: none !important;
 	box-shadow: none;
 	}
@@ -151,12 +161,12 @@ header a:hover {
 	margin: 0px 0px 5px 0px;
 	background: #d3d3d3 !important;
 	}
-
+	
 
 /* -- Dashboard Page CSS -- */
 .btn-grey {
-	margin-top: 15px;
-	background: #333;
+	margin-top: 0px;
+	background: #333 !important;
 	color: #fff;
 	font-weight: normal;
 	border-radius: 0px;
@@ -187,9 +197,8 @@ header a:hover {
 	}
 
 .btn-list {
-	position: absolute;
-	right: 15px;
-	top: 50px;
+	position: relative;
+	float:right;
 	background: #757575;
 	font-size: 14px;
 	color: #fff;
@@ -197,6 +206,7 @@ header a:hover {
 	border-radius: 0px;
 	font-weight: normal;
 	text-shadow: none;
+	z-index:10;
 	}
 
 .btn-list:hover {
@@ -204,35 +214,43 @@ header a:hover {
 	color: #fff;
 	}
 
-/*
 .table-notifications {
-	margin-top: 40px;
+	margin-top: 0px;
+	width:100% !important;
 	}
 
-.table-notifications tr {
-	float: left;
-	width: 100%;
-	}
-*/
-
-.bg-cell {
+.en-table-recipients tbody tr, .en-table-notifications tbody tr ,.bg-cell {
 	background:#eaeaea; 
 	border: 1px solid #cecece;	
 	margin-bottom: 2px;
 	}
+	
+.recipient-list {
+	margin-top:40px;
+	}
+	
+.recipient-list .modal-content {
+	padding: 15px 10px 0px 10px;
+	}
 
-/*
 .table-notifications th,
 .table-notifications td {
-	float: left;
-	padding: 15px;
+	padding: 15px !important;
 	}
+	
+.table-notifications th {
+	padding: 0px !important;
+	border:0px !important;
+	}
+	
+.table-notifications th:nth-of-type(1) {width:40%}
+.table-notifications th:nth-of-type(2) {width:30%}
+.table-notifications th:nth-of-type(3) {width:30%}
 
 .table-notifications td a {
 	margin: 0px 12px;
 	display: inline-block;
 	}
-*/
 
 .btn-black {
 	margin-top: 15px;
@@ -251,7 +269,7 @@ header a:hover {
 	}
 
 .btn-modify {
-	color: #37ac55;
+	color: #37ac55 !important;
 	}
 
 .btn-modify span {
@@ -268,7 +286,7 @@ header a:hover {
 	}
 
 .btn-delete {
-	color: #ed3f4c;
+	color: #ed3f4c !important;
 	}
 
 .btn-delete span {
@@ -330,6 +348,8 @@ header a:hover {
 	border-right: 1px solid #ddd;
 	width: 100px;
 	margin-top: 30px;
+	position:relative;
+	z-index:9999;
 	}
 
 
@@ -378,6 +398,12 @@ header a:hover {
 	color: #5f5f5f;
 	text-align: left;
 	padding-right: 15px;
+	width: 80%;
+	font-size: 14px;
+	}
+	
+.tab-inner .form-bottom p a {
+	color:#37ac55;
 	}
 
 .tab-inner .form-bottom a.btn-black {
@@ -410,7 +436,25 @@ header a:hover {
 
 /* -- Notifications Page CSS -- */
 .form-search {
-	margin-top: 30px;
+	margin-top: 0px;
+	}
+	
+.form-search .input-group {
+	  width: 100%;
+	}
+	
+.form-search .input-group span.twitter-typeahead {
+	width: 100%;
+	float: left;
+	}
+	
+.form-search .input-group span.twitter-typeahead input {
+	box-shadow:none !important;
+	}
+
+.form-search .input-group span.input-group-btn {
+	/*float: left;*/
+	width:10%
 	}
 
 .form-search .form-control {
@@ -435,10 +479,38 @@ header a:hover {
 .form-search .btn-default:hover {
 	background: #668666;
 	}
+	
+.recipient-list .fixed-table-container, .notification-list .fixed-table-container{
+	padding-bottom: 15px !important;
+	border:0px;
+	height:283px !important;
+	}
+	
+.recipient-list .fixed-table-container .fixed-table-header, .notification-list .fixed-table-container .fixed-table-header {
+	height: auto !important;
+	border:0px !important;
+	margin-right:0px;
+	}
+	
+.recipient-list .bootstrap-table, .notification-list .bootstrap-table {
+	float:left;
+	width:100%;
+	margin-top:-32px;
+	position: relative;
+	z-index: 9;
+	}
+	
+.recipient-list .fixed-table-body, .notification-list .fixed-table-body {
+	overflow-x:hidden;
+	-webkit-overflow-scrolling: touch;
+	}
+	
+.recipient-list .fixed-table-body thead, .notification-list .fixed-table-body thead {
+	display:none !important;
+	}
 
 
 /* -- Modal Popup CSS -- */
-/*
 .modal-backdrop {
 	background: none;
 	}
@@ -454,16 +526,15 @@ header a:hover {
 	}
 
 .modal-header .close {
-	background: #608c75;
-	opacity: 1;
-	color: #fff;
-	text-shadow: none;
-	width: 26px;
-	height: 26px;
-	border-radius: 50%;
-	outline: none;
-	margin-right: -35px;
-	margin-top: -26px;
+	  background: none;
+	  opacity: 1;
+	  color: #fff;
+	  text-shadow: none;
+	  width: 24px;
+	  height: 26px;
+	  border-radius: 50%;
+	  outline: none;
+	line-height: 90%;
 	}
 
 .modal-header .close:hover {
@@ -478,7 +549,8 @@ header a:hover {
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 	padding: 15px 25px 0px 25px;
 	}
-*/
+	
+.modal-dialog {margin: 150px auto;}
 
 .modal-content .form-horizontal .control-label {
 	text-align: left;
@@ -521,11 +593,290 @@ header a:hover {
 .btn-wrap {
 	clear: both;
 	}
+	
+.btn-wrap-recipient {
+	margin-top:25px;
+	}
 
 .tab-inner .col-sm-5 {
 	width: 120px;
 	padding-right: 0px;
 	}
+	
+/* -- Updated Heder -- */	
+header {
+	position:relative !important;
+	top:0px !important;
+	}
+	
+html, body {
+	overflow: inherit;
+	}
+	
+.page-wrap {
+	margin-top:0px;
+	}
+	
+.btn-notification-wrap {
+	margin-top:25px;
+	}
+	
+/* -- Inner Pages CSS -- */
+.panel-shadow {
+	background: #f5f5f5;
+	clear: both;
+	-moz-box-shadow: 0px 0px 5px #999;
+	-webkit-box-shadow: 0px 0px 5px #999;
+	box-shadow: 0px 0px 5px #999;
+	padding: 10px 0px 0px 0px;
+	}
+
+.panel-shadow img {
+	margin: 30px 0px 10px 0px;
+	}
+
+.panel-footer {
+	background: #e0e0e0;
+	margin-top: 40px;
+	}
+
+.panel-shadow .btn-black {
+	font-size: 19px;
+	margin: 0px;
+	padding: 7px 35px;	
+	}
+
+.form-wrapper .form-control {
+	height: 38px;
+	padding: 8px 12px;
+	}
+
+
+/* -- Design Page CSS -- */	
+.textarea-section {		
+	background: #e0e0e0;
+	box-sizing:border-box;
+	clear: both;
+	float: left;
+	-moz-box-shadow: 0px 0px 15px #999;
+	-webkit-box-shadow: 0px 0px 15px #999;
+	box-shadow: 0px 0px 15px #999;
+	margin-top: 27px;
+	width: 100%;
+	}
+
+.textarea-section span {
+	background: #333;	
+	color: #fff;
+	display: inline-block;
+	font-size: 16px;	
+	padding: 15px 35px;
+	}
+
+.inner-text-box {
+	background: #f5f5f5;
+	clear: both;
+	padding: 35px 35px 0px 35px;
+	}
+
+.inner-text-box h4 {
+	font-weight: bold;
+	margin: 0px;
+	}
+
+.inner-text-box textarea {
+	background: #fff;
+	border: 1px solid #cfcfcf;
+	box-sizing:border-box;
+	height: 375px;
+	margin: 20px 0px;
+	outline: none;
+	padding: 10px;
+	resize:none;
+	width: 100%;
+	}
+
+.textarea-section .btn-black {
+	font-size: 18px;
+	margin: 0px;
+	padding: 15px 30px;
+	}
+
+.textarea-section .btn-black i {
+	font-size: 16px;
+	margin-left: 5px;
+	}
+
+.textarea-confirm .textarea-section p.subject-text {
+	padding: 10px 15px 0px 15px;
+	}
+
+.textarea-confirm .inner-text-box {	
+	box-sizing: border-box;
+	float: left;
+	padding: 15px;
+	width: 100%;
+	}
+
+.textarea-confirm .inner-text-box textarea {
+	height: 300px;
+	margin: 5px 0px 10px 0px;
+	}
+
+.block-confirm-notification ul {
+	list-style: none;
+	margin: 40px 0px 0px 10px;
+	padding: 0px;
+	font-size: 19px;
+	}
+
+.block-confirm-notification ul li {
+	background: url('/mockups/imgs/arrow-list-bg.png') left 7px no-repeat;
+	display: block;
+	margin: 0px 0px 30px 0px;
+	padding: 0px 0px 0px 20px;
+	}
+
+.btn-confirm {
+	float: right;
+	border: 0px;
+	background: #45bf55;
+	padding: 15px 22px;
+	border-radius: 0px;
+	color: #fff;
+	font-size: 18px;
+	}
+
+.btn-confirm:hover {
+	background: #608c75;
+	}
+
+.confirm-bottom {
+	float: left;
+	width: 100%;
+	}
+
+.confirm-bottom p {
+	text-align: left;
+	padding: 15px 15px 0px 15px;
+	float: left;
+	}
+
+/* -- CSS Updated by Amy Rasmeet -- */
+
+.modal-content {
+	border-radius: 5px;
+	padding: 15px 0px 0px 0px;
+	width: 100%;
+	}
+
+.modal-header {
+	border-bottom: solid 1px #e6e6e6;
+	margin-bottom: 15px;
+	padding: 0px 0px;
+	width: 100%;
+	}
+
+.modal-header h4 {
+	font-weight: 600;
+	margin-top: 0;
+	}
+
+.modal-header .close {
+	height: 16px;
+	margin-right: -18px;
+	margin-top: 0px;
+	position: absolute;
+	right: 23px;
+	top: 0px;
+	width: 16px;
+	color:#ccc;
+	}
+
+.modal-header .close:hover {
+	background: none;
+	color: #8f8f8f;
+	}
+
+.modal-body {	
+	padding: 0px 10px;
+	width: 100%;
+	}
+
+.block-btn {
+	padding-bottom: 15px;
+	}
+
+.btn-cancel {
+  	background: #7d7d7d;
+  	border: 0;
+  	border-radius: 0px;
+  	color: #fff;	
+	font-size: 14px;
+  	margin-right: 10px;
+  	padding: 6px 12px;
+	}
+	
+.modal-footer button.btn-default {
+  	background: #7d7d7d;
+  	border: 0;
+  	border-radius: 0px;
+  	color: #fff;	
+	font-size: 14px;
+  	margin-right: 10px;
+  	padding: 6px 12px;
+	}
+	
+.block-btn .btn-cancel {
+	float:right;
+	}
+
+.btn-cancel:hover {
+	background: #646464;
+	}
+	
+.modal-footer button.btn-default:hover {
+	background: #646464;
+	}
+
+.modal-footer button.btn-primary,
+.btn-save {
+	background: #006bb2;
+	color: #fff;
+	font-size: 14px;
+	margin-right: 0;
+	padding: 6px 12px;
+	}
+
+.modal-footer button.btn-primary:hover,
+.btn-save:hover {
+	background: #004b7d;
+	}
+	
+button.close {
+	position:relative;
+	z-index:999;
+	}
+	
+.opsportal-container {
+	box-shadow:none;
+	}
+	
+.msg-box {
+	padding:0px 0px 15px 5px;
+	}
+	
+.head-popup {
+	padding: 0px 10px;
+	}
+	
+.modal {
+	z-index:999999;
+	}
+
+/*.bootbox-body{
+	padding-bottom:25px;
+}*/
 
 /* -- Media Break Points -- */
 @media (max-width: 1199px) {
@@ -534,7 +885,7 @@ header a:hover {
 
 @media (max-width: 991px) {
 	.modal-dialog {width: 90% !important;}
-	.table-notifications td a {margin: 0px 5px;}
+	.table-notifications td a {margin: 0px 1px;}
 	.tab-inner .form-bottom p {float: none; margin: 15px 0px 0px 0px; color: #5f5f5f; width: 100%; text-align: left; padding-top: 10px; padding-bottom: 10px;}	
 }
 
@@ -547,6 +898,10 @@ header a:hover {
 	.navbar-default .navbar-nav>li {display: block; text-align: left;}
 	.navbar-default .navbar-nav>li>a {margin: 0px; padding: 8px 0px;}
 	.navbar-default .navbar-nav>li>i {display: none;}
+	.recipient-list {margin-top:20px;}
+	.recipient-list .bootstrap-table {margin-top:20px;}
+	.form-search .btn-default {width:100%;}
+	.form-tab {margin-top:35px;}
 }
 
 @media (max-width: 650px) {
@@ -554,24 +909,26 @@ header a:hover {
 	.modal-content {padding: 0px;}
 	.modal-dialog {width: 90%;}
 	.btn-save {margin-right: -15px;}
-	.modal-header .close {margin-right: -6px; margin-top: -6px;}
+	.table-notifications {width: 600px !important;}
+	.recipient-list .fixed-table-body {overflow-x: auto;}
+	
+	.recipient-list .fixed-table-body::-webkit-scrollbar {background: transparent; height: 10px; overflow: visible; width: 10px;}
+	.recipient-list .fixed-table-body::-webkit-scrollbar-thumb {background-color: rgba(0, 0, 0, 0.2); -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;}
+	.recipient-list .fixed-table-body::-webkit-scrollbar-thumb:hover {background-color: rgba(0, 0, 0, 0.6);   }
+	.recipient-list .fixed-table-body::-webkit-scrollbar-corner {background: transparent;}
+
+	.recipient-list .fixed-table-body::-moz-scrollbar {background: transparent; height: 10px; overflow: visible; width: 10px;}
+	.recipient-list .fixed-table-body::-moz-scrollbar-thumb {background-color: rgba(0, 0, 0, 0.2); -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;}
+	.recipient-list .fixed-table-body::-moz-scrollbar-thumb:hover {background-color: rgba(0, 0, 0, 0.6);   }
+	.recipient-list .fixed-table-body::-moz-scrollbar-corner {background: transparent;}
+
+	.recipient-list .fixed-table-body/::scrollbar {background: transparent; height: 10px; overflow: visible; width: 10px;}
+	.recipient-list .fixed-table-body::scrollbar-thumb {background-color: rgba(0, 0, 0, 0.2); -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;}
+	.recipient-list .fixed-table-body::scrollbar-thumb:hover {background-color: rgba(0, 0, 0, 0.6);   }
+	.recipient-list .fixed-table-body::scrollbar-corner {background: transparent;}
 }
 
-/*
 @media (max-width: 550px) {
-	.table-notifications, 
-	.table-notifications thead, 
-	.table-notifications tbody, 
-	.table-notifications th, 
-	.table-notifications td, 
-	.table-notifications tr {display: block;}
-	.table-notifications thead tr {position: absolute; top: -9999px; left: -9999px;}
-	.table-notifications tr {border: 1px solid #ccc; padding-top: 5px;}
-	.table-notifications td {border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 40%; float: none; width: 100%; padding-top: 7px; padding-bottom: 10px; font-size: 14px;}
-	.table-notifications td:before {position: absolute; top: 6px; left: 6px; width: 45%; padding-right: 10px; white-space: nowrap;}
-	.table-notifications td:nth-of-type(1):before { content: "List Title"; }
-	.table-notifications td:nth-of-type(2):before { content: "Last Updated"; }
-	.table-notifications td:nth-of-type(3):before { content: " "; }
 	.btn-list {position: relative; top: 20px; right: 0px;}
 	.tabs-left > .nav-tabs {float: none; width: auto; border: 0px;}
 	.tabs-left > .nav-tabs > li {float: left; margin-bottom: 0px;}
@@ -580,9 +937,24 @@ header a:hover {
 	.tabs-left > .nav-tabs > li.active a:after {width: 10px !important; height: 10px !important; top: 37px !important; right: inherit; left: 18px;}
 	.tab-inner .form-group {padding: 0px 10px;}
 	.table-notifications td.text-center {text-align: left;}
+	.recipient-list .bootstrap-table {margin-top:40px;}
+	.recipient-list {margin-top:10px;}
 }
-*/
+
+@media (max-width: 479px) {
+	.form-search .input-group span.input-group-btn {width:15%;}
+	.form-search .input-group span.twitter-typeahead {width:100%;}
+}
 
 @media (max-width: 359px) {
 	.container-fluid {padding-right: 0px; padding-left: 0px;}
 }
+
+.block-never-end {float: right; margin-top: -25px;}
+   @media (max-width:1280px) {
+    .block-never-end {float: left; margin-top: 2px; margin-left: 120px;}
+    .tab-inner .form-bottom {margin-top: 35px;}
+   }
+   @media (max-width:767px) {
+    .block-never-end {float: left; margin-top: 2px; margin-left: 15px;}
+   }
