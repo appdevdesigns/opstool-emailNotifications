@@ -99,7 +99,13 @@ function(){
 				});
 			
 			this.controllers.Design.on(this.CONST.DESIGN_TEMPLATE_NEXT, function() { 
-                self.controllersShow('Confirm');
+				
+				var data = {};
+		//Right now added only one function for check issue
+				numRecipients = self.controllers.Recipients.getNumRecipients();//To get Recipient Numbers
+				console.log(numRecipients);
+				
+                self.controllersShow('Confirm',data);
             });
             
 			 // Confirm Controller
@@ -116,7 +122,7 @@ function(){
         },
 
 		
-		controllersShow: function( key ) {
+		controllersShow: function( key, data ) {
 			
             for (var k in this.controllers) {
                 if (k == key) {
