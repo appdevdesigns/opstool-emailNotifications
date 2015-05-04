@@ -328,34 +328,34 @@
 		<div class="container-fluid">
 			<div class="col-xs-12">
 				<h2>Confirm Notification</h2>
-			</div><!-- /.col-xs-12 -->
+			</div>
 			<div class="col-lg-5 col-md-5 col-sm-12 block-confirm-notification">
 				<p><strong>Please recheck the notification details:</strong></p>
 				<ul>
-					<li><strong>10 Recipients</strong> are selected</li>
-					<li>Subject is "<strong>Please confirm your Email</strong>"</li>
+					<li><strong>[[= numRecipients]] Recipients</strong> are selected</li>
+					<li>Subject is "<strong>[[= notificationSubject]]</strong>"</li>
 					<li>Sending conditions based on system Event "<strong>Renew Email Status</strong>"</li>
-					<li>Template selected is "<strong>System Notification Template</strong>"</li>
-					<li>HTML text is given using the "<strong>Single Column</strong>" Design</li>
+					<li>Template selected is "<strong>[[= selectedTemplate]]</strong>"</li>
+					<li>HTML text is given using the "<strong>[[= templateType]]</strong>" Design</li>
 				</ul>
-			</div><!-- /.block-confirm-notification -->
+			</div>
 			<div class="col-lg-6 col-md-7 col-sm-12 col-lg-offset-1 textarea-confirm">
 				<p><strong>This is the preview of the notification you are sending:</strong></p>
 				<div class="textarea-section">						
 					<div class="inner-text-box">
 						<p class="subject-text"><em>Subject:</em> <strong>Maecenas sed diam eget risus varius blandit sit amet non magna.</strong></p>
 						<textarea name="" id=""><b>sadfsafsaf</b></textarea>							
-					</div><!-- /.inner-text-box -->
+					</div>
 					<div class="text-right confirm-bottom">
 						<p>Please confirm your Notification</p>
 						<a class="btn btn-confirm en-wiz-confirm">
 							<i class="fa fa-check"></i> Confirm
 						</a>
-					</div><!-- /.text-right -->
-				</div><!-- /.textarea-section -->
-			</div><!-- /.form-tab -->
-		</div><!-- /.container-fluid -->
-	  </div><!-- /.page-wrap -->
+					</div>
+				</div>
+			</div>
+		</div>
+	  </div>
       <!-- End Design Confirm -->
     </div>
     <!-- End Wizard -->

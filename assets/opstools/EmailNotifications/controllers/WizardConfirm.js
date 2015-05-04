@@ -35,12 +35,19 @@ function(){
 
 
         initDOM: function () {
-			
+			var template = this.domToTemplate(this.element)
+				can.view.ejs('EmailNotification_Wizard_Confirm', template);
 			
 			
            // this.element.html(can.view(this.options.templateDOM, {} ));
 
         },
+        
+        show: function(data) {
+				console.log(data);			
+				this._super();
+				this.element.html(can.view("EmailNotification_Wizard_Confirm", data));
+			},
         
 
 		'a.en-wiz-confirm click': function ($el, ev) {			

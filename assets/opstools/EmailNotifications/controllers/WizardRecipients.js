@@ -371,6 +371,30 @@ function(){
 			this.dom.next.removeClass('disabled');
 		},
 
+/**	@getNumRecipients
+		 * 
+		 * @param void.		
+		 *
+		 * @return void
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */
+		 
+		getNumRecipients : function (){
+			 var self = this;
+			 var totalRecipient;
+			 
+			  Recipient = AD.Model.get('opstools.EmailNotifications.ENRecipient');	
+			  //satic value to check will replace it later		 	
+			 return	Recipient.findOne({id:4}).then(function(rep){
+						
+						return rep.recipients;
+					
+					});
+					
+			 },
+			 
 		/**	 @recipientsLoad
 		 * 
 		 * @param void.		
@@ -380,6 +404,8 @@ function(){
 		 * @author Edwin
 		 * @since 30 March 2015
 		 */
+		 
+		 
          
 		recipientsLoad: function() {	
 			var self = this;		
