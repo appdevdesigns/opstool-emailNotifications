@@ -166,32 +166,34 @@
         </div><!-- /.container-fluid -->
       </div><!-- /.page-wrap -->
       <!-- End Choose The Receipients panel -->
+
+
       <!-- Form Notification -->
       <div class="page-wrap mockup-display en-formNotification en-wizard-formNotification">
         <div class="container-fluid" id="frmNotification-setup">
           <div class="col-xs-12">
             <h2>Notification Setup</h2>
-          </div><!-- /.col-xs-12 -->
+          </div>
           <div class="col-lg-4 col-md-5 col-sm-4 form-notifications">
-            <!--<form role="form"> -->
+          
               <div class="form-group">
                 <label for="title">Notification Title</label>
-                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle">
+                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle" value=[[=notificationTitle]] >
               </div>
               <div class="form-group">
                 <label for="email">Email Subject</label>
-                <input type="email" class="form-control" id="emailSubject" name="emailSubject">
+                <input type="email" class="form-control" id="emailSubject" name="emailSubject" value=[[=emailSubject]]>
               </div>
               <div class="form-group">
                 <label for="name">From Name</label>
-                <input type="text" class="form-control" id="fromName" name="fromName">
+                <input type="text" class="form-control" id="fromName" name="fromName" value=[[=fromName]] >
               </div>
               <div class="form-group">
                 <label for="email">From Email</label>
-                <input type="email" class="form-control" id="fromEmail" name="fromEmail">                
+                <input type="email" class="form-control" id="fromEmail" name="fromEmail" value=[[=fromEmail]]>                
               </div>
-           <!-- </form>-->
-          </div><!-- /.form-notifications -->
+          
+          </div>
           <div class="col-lg-7 col-md-6 col-sm-8 col-lg-offset-1 col-md-offset-1 form-tab">
             <p><strong>Select how you want to send notifications:</strong></p>          
             <div class="tabbable tabs-left">
@@ -208,7 +210,7 @@
                         <label>Start from:*</label>
                       </div>
                       <div class="input-group date col-lg-6 col-md-5 col-sm-7" id="startFrom" >
-                        <input type='text' class="form-control" id="dateStartFrom" name="startFrom" />
+                        <input type='text' class="form-control" id="dateStartFrom" name="startFrom" value=[[=startFrom]]/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                       </div>
                     </div>
@@ -229,7 +231,7 @@
 							<label>Repeat until:</label>
 						</div>
 						<div class="input-group date col-lg-6 col-md-5 col-sm-7" id="repeatUntil">
-						   <input type='text' class="form-control" name="repeatUntil" id="dateRepeatUntil" />
+						   <input type='text' class="form-control" name="repeatUntil" id="dateRepeatUntil" value= [[=repeatUntil]]/>
 						   <div class="form-control" id="no-date" style="display:none;">&nbsp;</div>
 						   <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>
@@ -240,9 +242,9 @@
                     <div class="form-bottom">
                       <p>The Notification will be sent <span id="basic-settings"><a href="#">Everyday</a> from <span>1/12/2015</span> to <span>6/12/2015</span></span></p>
                       <a mockup-show="en-formTemplate" class="btn btn-default btn-black en-wiz-notifications-next">Next <i class="fa fa-arrow-right"></i></a>
-                    </div><!-- /.form-bottom -->
-                  </div><!-- /.tab-inner -->
-                </div><!-- /.tab-pane -->
+                    </div>
+                  </div>
+                </div>
                 <div class="tab-pane" id="system">
                   <div class="tab-inner tab-inner-system">
                     <h3 class="text-center">System</h3>
@@ -253,7 +255,7 @@
                     </div>
                     <div class="form-group">
                       <div class="input-group date col-lg-8 col-md-10 col-sm-10 col-lg-offset-1 col-xs-12">
-                        <select class="form-control" name="eventTrigger">
+                        <select class="form-control">
                           <option>13 Month Report Completed</option>
                         </select>
                       </div>
@@ -261,13 +263,13 @@
                     <div class="form-bottom">
                       <p>You are sending 13 month report</p>
                       <a mockup-show="en-formTemplate" class="btn btn-default btn-black en-wiz-notifications-system-next">Next <i class="fa fa-arrow-right"></i></a>
-                    </div><!-- /.form-bottom -->
-                  </div><!-- /.tab-inner -->
-                </div><!-- /.tab-pane -->
-              </div><!-- /.tab-content -->
-            </div><!-- /.tabs-left -->
-          </div><!-- /.form-tab -->
-        </div><!-- /.container-fluid -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div><!-- /.page-wrap -->
       <!-- End Form Notification -->
       
@@ -300,7 +302,7 @@
 				<!--<form role="form">-->
 					<div class="form-group">
 						<label for="title">Template Title</label>
-						<input type="text" class="form-control" id="templateTitle" name="templateTitle">
+						<input type="text" class="form-control" id="title" name="templateTitle">
 					</div>						
 				<!--</form>-->
 			</div><!-- /.form-notifications -->
@@ -331,19 +333,19 @@
 			<div class="col-lg-5 col-md-5 col-sm-12 block-confirm-notification">
 				<p><strong>Please recheck the notification details:</strong></p>
 				<ul>
-					<li><strong>[[=numRecipients]] Recipients</strong> are selected</li>
+					<li><strong>[[= numRecipients]] Recipients</strong> are selected</li>
 					<li>Subject is "<strong>[[= notification.notificationSubject]]</strong>"</li>
 					<li>Sending conditions based on "<strong>[[=notification.setupShortDesc]]</strong>"</li>
 					<li>Template selected is "<strong>[[= notification.selectedTemplate]]</strong>"</li>
-					<li>HTML text is given using the "<strong>[[= notification.templateDesignId.templateType]]</strong>" Design</li>
+					<li>HTML text is given using the "<strong>[[= notification.templateType]]</strong>" Design</li>
 				</ul>
 			</div>
 			<div class="col-lg-6 col-md-7 col-sm-12 col-lg-offset-1 textarea-confirm">
 				<p><strong>This is the preview of the notification you are sending:</strong></p>
 				<div class="textarea-section">						
 					<div class="inner-text-box">
-						<p class="subject-text"><em>Subject:</em> <strong>[[=notification.templateDesignId.templateSubject]]</strong></p>
-						<div class="confirm-box">[[=notification.templateDesignId.templateBody]]</div>							
+						<p class="subject-text"><em>Subject:</em> <strong>[[=notification.templateSubject]]</strong></p>
+						<div class="confirm-box">[[=notification.templateBody]]</div>							
 					</div>
 					<div class="text-right confirm-bottom">
 						<p>Please confirm your Notification</p>

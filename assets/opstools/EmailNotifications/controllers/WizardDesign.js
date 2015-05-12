@@ -2,6 +2,7 @@
 steal(
         // List your Controller's dependencies here:
         'appdev',
+        'opstools/EmailNotifications/models/ENTemplateDesign.js',
         'opstools/EmailNotifications/models/ENNotification.js',
 //        'opstools/EmailNotifications/models/Projects.js',
 //        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
@@ -12,15 +13,14 @@ function(){
     // AD.Control.extend('[application].[controller]', [{ static },] {instance} );
     AD.Control.extend('opstools.EmailNotifications.WizardDesign', {  
 
-
         init: function (element, options) {
             var self = this;
             options = AD.defaults({
 				triggerNext: 'next'
-                //    templateDOM: '//opstools/EmailNotifications/views/WizardDesign/WizardDesign.ejs'
+                //templateDOM: '//opstools/EmailNotifications/views/WizardDesign/WizardDesign.ejs'
             }, options);
             this.options = options;
-
+			this.options.wizardData.design = {};//	
             // Call parent init
             this._super(element, options);
 
@@ -32,41 +32,78 @@ function(){
 
         },
 
-	/*	'a.en-wiz-design-template-next click': function ($el, ev) {
-			 this.form = this.element.find('#frmDesign-setup');
-            this.element.trigger(this.options.triggerNext);
-            ev.preventDefault();
-        },*/
 
         initDOM: function () {
-			// this.form = this.element.find('#frmDesign-setup');
-			  this.form = this.element.find('#en-emailNotificationForm');
+			this.form = this.element.find('#frmDesign-setup');				
             //this.element.html(can.view(this.options.templateDOM, {} ));
+           
 
         },
         
+        /**	@ design-template-next click
+		 * 
+		 * @param $el.		
+		 * @param ev.		
+		 *
+		 * @return bool
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */	
+		 
         'a.en-wiz-design-template-next click': function ($el, ev) {
-			var self = this;
+			var self = this;					
 			var obj = this.formValues();
-			
+			var templateId	='';
+			var notificationId ='';		
 			if(this.validateData(obj)){
 				
-				
-			//var values = this.form.find(':input').serializeArray();
-			//alert(values);
-			//console.log(values);
+			var Model = AD.Model.get('opstools.EmailNotifications.ENTemplateDesign');
+				//console.log(self.options.notificationEditData);
+			var notificationId = 	this.options.notificationEditData.id;	
 			
-				//setSession();
-				/*var Model = AD.Model.get('opstools.EmailNotifications.ENNotification');
-					Model.create(obj)
-						.fail(function(err){
+				if(notificationId !=undefined){	
+					if(this.options.notificationEditData.notificationData.templateDesignId != undefined){
+								//alert('update1');
+									var	templateId = 	this.options.notificationEditData.notificationData.templateDesignId;
+										
+									Model.update(templateId.id,obj).fail(function(err){
+										console.error(err);						
+									})
+									.then(function(data){
+									
+										self.element.trigger(self.options.triggerNext);	
+									})
+						}else{
+														
+								Model.create(obj).fail(function(err){
+									console.error(err);						
+								})
+								.then(function(data){											
+									var Notifications = AD.Model.get('opstools.EmailNotifications.ENNotification');
+										Notifications.update(notificationId,{'templateDesignId': data.id}).then(function(){
+											self.element.trigger(self.options.triggerNext);											
+											});							
+								})
+							}	
+					
+					}else{
+						
+					Model.create(obj).fail(function(err){
 						console.error(err);						
 					})
-					.then(function(data){							
-										
-					})*/	
+					.then(function(data){											
+						var Notifications = AD.Model.get('opstools.EmailNotifications.ENNotification');
+						var NotificationId = self.options.wizardData.notification.id;										
+							Notifications.update(NotificationId,{'templateDesignId': data.id}).then(function(){
+											self.element.trigger(self.options.triggerNext);											
+							});														
+															
+					})
+				}		
+				 
 				self.element.trigger(this.options.triggerNext);		
-				ev.preventDefault();
+				ev.preventDefault();		
             
 			}else{
 				
@@ -90,19 +127,29 @@ function(){
 				}
         },
 		
+		
+		/**	@ validateData
+		 * 
+		 * @param values.		
+		 *
+		 * @return bool
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */	
+		 
 		validateData : function(values){
 			var self = this;
 			var isValid = true; 
 		
 			isValid = isValid && (values.templateTitle != '');	
-		/*	if(values.templateTitle !=''){					
+			/*if(values.templateTitle !=''){					
 						if(!this.isUniqueTemplateTitle(values.templateTitle)){
-							isValid = false;
-				
+							isValid = false;				
 				  }	
 				}*/
 					
-			isValid = isValid && (values.templateContent != '');			
+			isValid = isValid && (values.templateBody != '');			
 						
             return isValid;
 			
@@ -129,6 +176,16 @@ function(){
             return obj;
         },
 		
+		/**	@ formErrors
+		 * 
+		 * @param values.		
+		 *
+		 * @return object
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */	
+		 
 		formErrors : function(values){
 			
 				var errors = [];
@@ -139,7 +196,7 @@ function(){
 				
 				
 				if (values.templateTitle == '') {
-					errors.push('Notification title is required.');
+					errors.push('Template title is required.');
 				}/*else if(values.notificationTitle !=''){
 				
 								
@@ -150,8 +207,8 @@ function(){
 				}*/
             
 				
-				if (values.templateContent == '') {
-					errors.push('Email subject is required.');
+				if (values.templateBody == '') {
+					errors.push('Design content is required.');
 				}			
 				
 			

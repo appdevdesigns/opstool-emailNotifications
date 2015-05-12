@@ -22,9 +22,9 @@ function(){
             // Call parent init
             this._super(element, options);
 			this.dom = {};              // track any DOM elements we are interested in
-
+			this.options.wizardData.recipients = {};//
             this.dataSource = this.options.dataSource; // AD.models.Projects;
-
+			
             this.initDOM();
 			this.recipientsLoad();
 
@@ -46,7 +46,15 @@ function(){
 				tagBootstrapTable:'.en-table-recipients',
 				scrollToSelect:true,
 				filterTable:true,
-				cssSelected:'en-table-row-active template',
+				 cssSelected:'active',
+				//cssSelected:'en-table-row-active template',
+				tableOptions:{
+						columns: [
+							{ title:'List Title',field:'title'}, 
+							{ title:'Last Updated',field:'updatedAt'},
+							{ title:'Options',formatter:'.tmpl-options'    }
+						]
+					},
 				 dataToTerm: function(model) {  
 						if (model) {
 							return model.title;
@@ -54,6 +62,7 @@ function(){
 							return '';
 						}
 					},
+					 
 					
 				 rowClicked:function(data) {
 					
@@ -74,10 +83,9 @@ function(){
 					
 				
 			   });
-			
-           // this.modalAdd = this.element.find(".en-add-recipients-form"); 
+			   
             this.form = this.element.find('.en-add-recipients-form');
- 
+			
 			   			  
         },
         
@@ -132,6 +140,7 @@ function(){
 
             return errors;
         },
+        
         
         /**
          * @function formErrors
@@ -189,7 +198,6 @@ function(){
         formValid:function(values) {
 
             var isValid = true;  // so optimistic
-
             // image needs to be set:
             isValid = isValid && (values.title != ''); 
             if(values.title !=''){
@@ -367,34 +375,11 @@ function(){
 		 */
          
 		nextEnable : function () {
+			
 			this.dom.next.removeAttr('disabled');
 			this.dom.next.removeClass('disabled');
 		},
 
-/**	@getNumRecipients
-		 * 
-		 * @param void.		
-		 *
-		 * @return void
-		 *
-		 * @author Edwin
-		 * @since 30 March 2015
-		 */
-		 
-		getNumRecipients : function (){
-			 var self = this;
-			 var totalRecipient;
-			 
-			  Recipient = AD.Model.get('opstools.EmailNotifications.ENRecipient');	
-			  //satic value to check will replace it later		 	
-			 return	Recipient.findOne({id:4}).then(function(rep){
-						
-						return rep.recipients;
-					
-					});
-					
-			 },
-			 
 		/**	 @recipientsLoad
 		 * 
 		 * @param void.		
@@ -404,11 +389,11 @@ function(){
 		 * @author Edwin
 		 * @since 30 March 2015
 		 */
-		 
-		 
          
 		recipientsLoad: function() {	
-			var self = this;		
+			
+			var self = this;	
+			//alert(self.options.notificationEditData.id);	
             var Recipient = AD.Model.get("opstools.EmailNotifications.ENRecipient");
 			this.FilteredTable.load([]);
 			this.FilteredTable.busy();
@@ -423,21 +408,28 @@ function(){
              })
         },
         
+     		 
 		/**	 trigger next
 		 * 
 		 * @param 		
-		 *self.popup.addClass('in');
-			self.popup.show();
+		 *
 		 * @return void
 		 *
 		 * @author Edwin
 		 * @since 30 March 2015
 		 */
-		   'a.en-wiz-recipients-next click': function ($el, ev) {
+		/*   'a.en-wiz-recipients-next click': function ($el, ev) {
 
             this.element.trigger(this.options.triggerNext);
             ev.preventDefault();
-        },
+        },*/
+        
+        showNext : function($el, ev){
+			 this.element.trigger(this.options.triggerNext);
+				ev.preventDefault();
+			
+			},
+        
         
         /**	 @modify click event
 		 * 
@@ -449,18 +441,23 @@ function(){
 		 * @since 30 March 2015
 		 */
 		 
-        'a.btn-modify click' : function( $el, ev) { 
+        'a.btn-modify click' : function( $el, ev) { 			
 			var self = this;
-			this.popup = this.element.find('div #myModal');
-			var recipient = $el.data('recipient');			
-			self.popup.find('#title').val(recipient.title);
-			self.popup.find('#recipients').val(recipient.recipients);
-			self.popup.find('.en-recipient-list-save').removeClass('en-recipient-list-save').addClass('en-recipient-list-update');
-			self.popup.find('#recipient_id').val(recipient.id);			
-			//self.popup.modal('show');
-			self.popup.addClass('in');
-			self.popup.show();
-			
+			this.popup = this.element.find('#myModal');		
+			var id = $el.attr('obj-id');
+			var Recipient = AD.Model.get('opstools.EmailNotifications.ENRecipient');		
+			 Recipient.findOne({id:id},function(recipient){ 			
+				self.popup.find('#title').val(recipient.title);
+				self.popup.find('#recipients').val(recipient.recipients);
+				self.popup.find('.en-recipient-list-save').removeClass('en-recipient-list-save').addClass('en-recipient-list-update');
+				self.popup.find('#recipient_id').val(recipient.id);
+				self.popup.addClass('in');
+				self.popup.show();
+				self.popup.modal('show');	
+				//ev.preventDefault();			
+				}
+			);			
+			 ev.stopPropagation();	
 		},
 		
 		/**	 @delete click event
@@ -473,33 +470,41 @@ function(){
 		 * @since 30 March 2015
 		 */
 
-		'a.btn-delete click' : function( $el, ev) { 
-			var recipient = $el.data('recipient');
+		'a.btn-delete click' : function( $el, ev) { 			
 			var self = this;
-			console.log(' the recipient model instance to delete:');	
-			var recipient = $el.data('recipient');
-			
-		                    
+			//console.log(' the recipient model instance to delete:');	
+			//var recipient = $el.data('recipient');
+			var id = $el.attr('obj-id');		                    
                bootbox.confirm("Are you sure? You want to delete this recipient.", function(result){
 				    if(result){
 						var Model = AD.Model.get('opstools.EmailNotifications.ENRecipient');
-								Model.destroy(recipient.id)
+								Model.destroy(id)
 								.fail(function(err){
 									console.error(err);						
 								})
 								.then(function(recipient){														
 									self.recipientsLoad();	
 									bootbox.dialog({
-									  title: "",
-									  
+									  title: "",									  
 									  message: '<div class="msg-box">Record deleted successfully.</div>'
 									});						
 							});	
 						
 						}
-				   });  					
+				   });
+				    ev.stopPropagation();  				
 		
 			},
+		
+		/**	 @en-recipient-btn-cancel click'
+		 * 
+		 * @param void.		
+		 *
+		 * @return void
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */	
 			
 		'.en-recipient-btn-cancel click' : function ($el, ev){
 			   var self = this;
@@ -507,21 +512,47 @@ function(){
 				self.popup.hide();				
 			},
 		
+		/**	 @create-new-list click'
+		 * 
+		 * @param void.		
+		 *
+		 * @return void
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */		
+		
 		'.create-new-list click' : function ($el, ev){
 			   var self = this;
 			   self.formClear();
 			   self.popup.find('.en-recipient-list-update').removeClass('en-recipient-list-update').addClass('en-recipient-list-save');			 
 		},
 		
+		
         '.ad-item-add click': function ($el, ev) {
-
             ev.preventDefault();
         },
         
-        '.en-table-recipients .template click':function(){
-				this.nextEnable();
+        /**	 @en-table-recipients .template click'
+		 * 
+		 * @param void.		
+		 *
+		 * @return void
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */	
+		 
+        '.en-table-recipients .template click':function($el, ev){
+				var self = this;
+				var id = $el.attr('id');
+				
+				self.options.wizardData.recipients.id = id;//	
+						
+				this.element.trigger(this.options.triggerNext);
+				ev.preventDefault();		
+								
 			}
-
 
     });
 

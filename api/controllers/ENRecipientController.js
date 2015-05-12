@@ -29,7 +29,29 @@ module.exports = {
 					}
 			});
 				
-	}	
+	},
+	
+	/*setRecipientId: function(req,res){
+		var id =  req.param('id');
+		
+		return req.session.recipientId = id;
+		
+		
+		}*/
+	
+	getRecipientCount : function(req, res){
+				ENRecipient.findById(id).exec(function(err, recipient){
+				if(recipient.length > 0){ 
+					var selectedRecipient = recipient.recipients.split(',');
+					var totalRecipient = selectedRecipient.length;
+					return totalRecipient;			
+				}	
+			
+		});	
+		
+		
+		}	
+	
 	
 		
 };

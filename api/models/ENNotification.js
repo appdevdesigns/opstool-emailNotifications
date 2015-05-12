@@ -19,10 +19,28 @@ module.exports = {
     fromName : { type: 'string' },
 
     fromEmail : { type: 'string' },
+    
+    setupType : { type: 'string' },
+    
+    eventTrigger : { type: 'string' },
 
     startFrom : { type: 'date' },
     
-    recipientListId : { type: 'integer' }
+    emailFrequency : { type: 'string' },
+    
+    repeatUntil : { type: 'date' },
+    
+    templateDesignId :{ 
+		
+			model : 'ENTemplateDesign' 
+		},
+    
+    recipientId :{ type : 'integer'},   
+     status :{
+			type:'string',			
+			defaultsTo:'draft'
+		}
+    
   }
 };
 

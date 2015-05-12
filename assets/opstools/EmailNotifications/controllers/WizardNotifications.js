@@ -23,10 +23,14 @@ function(){
 
             // Call parent init
             this._super(element, options);
-
+			this.options.wizardData.notification = {};//
+			this.editData ={};
+			//this.options.editData.notification = {};//
+			//this.notificationEditData= {};//
+			
             this.dataSource = this.options.dataSource; // AD.models.Projects;
-
             this.initDOM();
+           
             
             //// Add Activity Modal:
             //this.modalAdd = this.element.find("#en-wizard-formNotification");
@@ -50,8 +54,18 @@ function(){
         initDOM: function () {
 		
           //  this.element.html(can.view(this.options.templateDOM, {} ));
-            this.form = this.element.find('#frmNotification-setup');
+            this.form = this.element.find('#frmNotification-setup');         
 		  },
+		  
+		  /**
+         * @setNotificationMessage
+         * 
+         * @param $el
+         * @param ev
+         * 
+         * return bool
+         * 
+         */	
 		
 		setNotificationMessage : function($el, ev){
 					var emailFrequency = $('#emailFrequency').val();
@@ -62,15 +76,47 @@ function(){
 			
 			},
 			
-		//
-			
+		/**
+         * @en-wiz-notifications-system-next click
+         * 
+         * @param $el
+         * @param ev
+         * 
+         * return bool
+         * 
+         */			
 		'a.en-wiz-notifications-system-next click': function ($el, ev) {
 				var self = this;	
 				var obj = this.formValues();
 				
 				
 				if(this.validateFormData(obj) && this.validateSystemTab(obj)){	
-								
+					
+							
+					var Model = AD.Model.get('opstools.EmailNotifications.ENNotification');
+					obj.recipientId = self.options.wizardData.recipients.id;
+					if(obj.startFrom!=''){
+						obj.setupType = 'Basic';
+						obj.eventTrigger ='';
+					}else{
+						obj.setupType = 'System';
+						
+						}	
+				var notificationId = 	self.options.notificationEditData.id;
+				
+				if(notificationId){
+					Model.update(notificationId,obj);//Update notificationId	
+					
+					}else{	
+							Model.create(obj)
+								.fail(function(err){
+								console.error(err);						
+							})
+							.then(function(data){							
+							self.options.wizardData.notification.id = data.id;//
+							
+							})	
+					}								
 						
 					self.element.trigger(this.options.triggerNextSystem);		
 					ev.preventDefault();
@@ -95,27 +141,51 @@ function(){
 					}
 				}
 			},
-			
+		
+		/**
+         * @en-wiz-notifications-next click
+         * 
+         * @param $el
+         * @param ev
+         * 
+         * return bool
+         * 
+         */	
 			
 		 'a.en-wiz-notifications-next click': function ($el, ev) {
 			var self = this;
-			var obj = this.formValues();
-			
 			/*Validation fields*/
-			var varobj = {};
+			var obj = {};
+			var obj = this.formValues();		
 			    
 			
 			if(this.validateFormData(obj) && this.validateBasicTab(obj)){
 		
 				var Model = AD.Model.get('opstools.EmailNotifications.ENNotification');
-					Model.create(obj)
-						.fail(function(err){
-						console.error(err);						
-					})
-					.then(function(data){							
-										
-					})	
-				self.element.trigger(this.options.triggerNext);		
+					obj.recipientId = self.options.wizardData.recipients.id;
+					if(obj.startFrom!=''){
+						obj.setupType = 'Basic';
+						obj.eventTrigger ='';
+					}else{
+						obj.setupType = 'System';
+						}	
+				var notificationId = 	self.options.notificationEditData.id;
+				
+				if(notificationId){
+					Model.update(notificationId,obj);//Update notificationId	
+					
+					}else{	
+							Model.create(obj)
+								.fail(function(err){
+								console.error(err);						
+							})
+							.then(function(data){							
+							self.options.wizardData.notification.id = data.id;//
+							
+							})	
+					}
+					
+				self.element.trigger(self.options.triggerNext);	//	
 				ev.preventDefault();
             
 			}else{
@@ -162,14 +232,22 @@ function(){
             return obj;
         },
         
-        //Validate the basic form
+        /**
+         * @function validateFormData
+         * 
+         * @param values
+         * 
+         * return bool
+         * 
+         */
 				
 		validateFormData : function(values){
 			var self = this;
 			var isValid = true; 
-		
+			var notificationId = 	self.options.notificationEditData.id;
 			isValid = isValid && (values.notificationTitle != '');	
-			if(values.notificationTitle !=''){					
+			
+			if(values.notificationTitle !='' && notificationId==''){					
 						if(!this.isUniqueTitle(values.notificationTitle)){
 							isValid = false;
 				
@@ -183,15 +261,30 @@ function(){
 			
 		},
 		
-		
-		// Validate system tab
+		/**
+         * @function validateSystemTab
+         * 
+         * @param values
+         * 
+         * return bool
+         * 
+         */
+         
 		validateSystemTab : function(values){
 			 var self = this;
 			 
 			 return true;
 			},
 		
-		// validate basic tab
+		/**
+         * @function validateBasicTab
+         * 
+         * @param values
+         * 
+         * return bool
+         * 
+         */
+         
 		validateBasicTab : function(values){
 				var self = this;
 			
@@ -237,7 +330,14 @@ function(){
 				return true;
 			},
 			
-		// Form errors
+		/**
+         * @function formErrors
+         * 
+         * @param values
+         * 
+         * return bool
+         * 
+         */
 			
 		formErrors : function(values,tabValue){
 			
@@ -320,7 +420,11 @@ function(){
 			
 		 },
 		 
-		 //
+		 /**
+         * @function isUniqueTitle
+         * @param values
+         * return bool
+         */
 		 
 		 isUniqueTitle :function(values){
 			var notificationController = '/opstool-emailNotifications/ennotification/isUniqeNotificationTitle';
@@ -342,8 +446,9 @@ function(){
 			
 		 
 		 /**
-         * @function formErrors
-         * 
+         * @function validateEmail
+         * @param value
+         * return bool
          */
          
         validateEmail: function(value) {
@@ -370,8 +475,8 @@ function(){
 					this.element.find('#dateRepeatUntil').attr('disabled',false);
 					this.element.find('#repeatUntil .input-group-addon ').show();
 				}			 
-		}
-		
+		},
+	
     });
 
 

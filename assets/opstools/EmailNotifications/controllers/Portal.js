@@ -2,7 +2,7 @@
 steal(
         // List your Controller's dependencies here:
         'appdev',
-        'opstools/EmailNotifications/models/ENNotification.js',
+        '//opstools/EmailNotifications/models/ENNotification.js',
 //        'opstools/EmailNotifications/models/Projects.js',
 //        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
    //     '//opstools/EmailNotifications/views/Portal/Portal.ejs',
@@ -12,23 +12,22 @@ function(){
     // AD.Control.extend('[application].[controller]', [{ static },] {instance} );
     AD.Control.extend('opstools.EmailNotifications.Portal', {  
 
-
         init: function (element, options) {
             var self = this;
             options = AD.defaults({
-				triggerCreateNotification: 'create-notification'
+				triggerCreateNotification: 'create-notification',
+				triggerModifyNotification: 'modify-notification'
 				//templateDOM: '//opstools/EmailNotifications/views/Portal/Portal.ejs'
             }, options);
             this.options = options;
-
+			//this.options.notificationEditData = {};
             // Call parent init
             this._super(element, options);
-
-
+            
             this.dataSource = this.options.dataSource; // AD.models.Projects;
 
             this.initDOM();
-			this .notificationsLoad();
+			this.notificationsLoad();
 
         },
 
@@ -36,7 +35,7 @@ function(){
 
         initDOM: function () {
 
-       //     this.element.html(can.view(this.options.templateDOM, {} ));
+       //this.element.html(can.view(this.options.templateDOM, {} ));
 
         var Filter = AD.Control.get('OpsPortal.FilteredBootstrapTable');
            this.FilteredTable = new Filter( this.element,{
@@ -45,6 +44,14 @@ function(){
 				scrollToSelect:true,
 				filterTable:true,
 				cssSelected:'en-table-row-active template',
+				  tableOptions:{
+					columns: [
+								{ title:'Notification Title',field:'notificationTitle'}, 
+								{ title:'Notification Status',field:'status'}, 
+								{ title:'Last Updated',field:'updatedAt'},
+								{ title:'Options',formatter:'.tmpl-options'}
+							]
+					},
 				 dataToTerm: function(model) {  
 						if (model) {
 							return model.notificationTitle;
@@ -92,7 +99,7 @@ function(){
             ev.preventDefault();
         },
         
-        /**	 @notificationsLoad
+      /**@notificationsLoad
 		 * 
 		 * @param void.		
 		 *
@@ -113,6 +120,7 @@ function(){
                 console.log(err);
             })
             .then(function(list){ 
+				
 				self.FilteredTable.load(list);
 				self.FilteredTable.ready();
              })
@@ -129,16 +137,14 @@ function(){
 		 */
 
 		'a.btn-delete click' : function( $el, ev) { 
-			var notification = $el.data('notification');
+		
 			var self = this;
-			console.log(' the notification model instance to delete:');	
-			var notification = $el.data('notification');
-			
-		                    
+			//var notification = $el.data('notification');
+		      var id = $el.attr('obj-id');	              
                bootbox.confirm("Are you sure? You want to delete this notification.", function(result){
 				    if(result){
 						var Model = AD.Model.get('opstools.EmailNotifications.ENNotification');
-								Model.destroy(notification.id)
+								Model.destroy(id)
 								.fail(function(err){
 									console.error(err);						
 								})
@@ -154,6 +160,27 @@ function(){
 				   });  					
 		
 			},
+			
+		/**	 @modify click event
+		 * 
+		 * @param void.		
+		 *
+		 * @return void
+		 *
+		 * @author Edwin
+		 * @since 30 March 2015
+		 */
+		 
+			'a.btn-modify click' : function($el, ev){			
+				var self = this;
+				var id = $el.attr('obj-id');			
+				self.options.notificationEditData.id = id ;
+				$.cookie('editNofication',id);				
+				this.element.trigger(this.options.triggerModifyNotification);
+				ev.preventDefault();	
+				
+		
+		},
 		
 
     });

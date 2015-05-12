@@ -958,3 +958,14 @@ button.close {
    @media (max-width:767px) {
     .block-never-end {float: left; margin-top: 2px; margin-left: 15px;}
    }
+.confirm-box{
+	height: 300px;
+	margin: 5px 0px 10px 0px; 
+	background-color:#fff; 
+	border:1px solid #ccc; 
+	padding:10px;
+}
+
+.en-table-recipients tbody .active {
+background-color: #fff!important;
+}

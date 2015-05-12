@@ -166,6 +166,8 @@
         </div><!-- /.container-fluid -->
       </div><!-- /.page-wrap -->
       <!-- End Choose The Receipients panel -->
+
+
       <!-- Form Notification -->
       <div class="page-wrap mockup-display en-formNotification en-wizard-formNotification">
         <div class="container-fluid" id="frmNotification-setup">
@@ -176,7 +178,7 @@
             <!--<form role="form"> -->
               <div class="form-group">
                 <label for="title">Notification Title</label>
-                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle">
+                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle" value="[[= data.attr('notificationTitle') ]]">
               </div>
               <div class="form-group">
                 <label for="email">Email Subject</label>
@@ -253,7 +255,7 @@
                     </div>
                     <div class="form-group">
                       <div class="input-group date col-lg-8 col-md-10 col-sm-10 col-lg-offset-1 col-xs-12">
-                        <select class="form-control" name="eventTrigger">
+                        <select class="form-control">
                           <option>13 Month Report Completed</option>
                         </select>
                       </div>
@@ -300,7 +302,7 @@
 				<!--<form role="form">-->
 					<div class="form-group">
 						<label for="title">Template Title</label>
-						<input type="text" class="form-control" id="templateTitle" name="templateTitle">
+						<input type="text" class="form-control" id="title" name="templateTitle">
 					</div>						
 				<!--</form>-->
 			</div><!-- /.form-notifications -->
@@ -331,19 +333,19 @@
 			<div class="col-lg-5 col-md-5 col-sm-12 block-confirm-notification">
 				<p><strong>Please recheck the notification details:</strong></p>
 				<ul>
-					<li><strong>[[=numRecipients]] Recipients</strong> are selected</li>
+					<li><strong>[[= numRecipients]] Recipients</strong> are selected</li>
 					<li>Subject is "<strong>[[= notification.notificationSubject]]</strong>"</li>
 					<li>Sending conditions based on "<strong>[[=notification.setupShortDesc]]</strong>"</li>
 					<li>Template selected is "<strong>[[= notification.selectedTemplate]]</strong>"</li>
-					<li>HTML text is given using the "<strong>[[= notification.templateDesignId.templateType]]</strong>" Design</li>
+					<li>HTML text is given using the "<strong>[[= notification.templateType]]</strong>" Design</li>
 				</ul>
 			</div>
 			<div class="col-lg-6 col-md-7 col-sm-12 col-lg-offset-1 textarea-confirm">
 				<p><strong>This is the preview of the notification you are sending:</strong></p>
 				<div class="textarea-section">						
 					<div class="inner-text-box">
-						<p class="subject-text"><em>Subject:</em> <strong>[[=notification.templateDesignId.templateSubject]]</strong></p>
-						<div class="confirm-box">[[=notification.templateDesignId.templateBody]]</div>							
+						<p class="subject-text"><em>Subject:</em> <strong>[[=notification.templateSubject]]</strong></p>
+						<div class="confirm-box">[[=notification.templateBody]]</div>							
 					</div>
 					<div class="text-right confirm-bottom">
 						<p>Please confirm your Notification</p>
