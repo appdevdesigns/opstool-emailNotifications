@@ -12,7 +12,12 @@ module.exports = function (cb) {
 
 	// setup our EmailNotifications API:
 	EmailNotifications.____init(cb);
-
+	
+	var schedule = require('node-schedule');
+			  Object.keys(sails.config.crontab).forEach(function(key) {
+				  var val = sails.config.crontab[key];
+				  schedule.scheduleJob(key, val);
+			  });
 
 	/*
 	 * If you have additional setup steps, then it might be better to use:

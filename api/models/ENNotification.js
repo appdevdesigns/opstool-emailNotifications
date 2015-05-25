@@ -30,6 +30,8 @@ module.exports = {
     
     repeatUntil : { type: 'date' },
     
+    nextNotificationDate : { type: 'date' },
+    
     templateDesignId :{ 
 		
 			model : 'ENTemplateDesign' 

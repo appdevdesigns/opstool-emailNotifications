@@ -1,175 +1,212 @@
-
 steal(
-        // List your Controller's dependencies here:
-        'appdev',
-//        '/opstools/EmailNotifications/models/[modelName].js',
-//        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
-//        '/opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
-		'opstools/EmailNotifications/controllers/Portal.js',
-        'opstools/EmailNotifications/controllers/Wizard.js',
-function(){
-
-    AD.Control.OpsTool.extend('EmailNotifications', {	
-	 CONST: {
-        CREATE_NOTIFICATION: 'en-create-notification',
-        MODIFY_NOTIFICATION: 'en-create-notification',        
-    },
-
-        init: function (element, options) {
-            var self = this;
-            options = AD.defaults({
+    // List your Controller's dependencies here:
+    'appdev',
+    //        '/opstools/EmailNotifications/models/[modelName].js',
+    //        'appdev/widgets/ad_delete_ios/ad_delete_ios.js',
+    //        '/opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
+    'opstools/EmailNotifications/controllers/Portal.js', 'opstools/EmailNotifications/controllers/Wizard.js', '//opstools/EmailNotifications/models/ENNotification.js', '//opstools/EmailNotifications/models/ENRecipient.js', '//opstools/EmailNotifications/models/ENTemplateDesign.js', function() {
+        AD.Control.OpsTool.extend('EmailNotifications', {
+            CONST: {
+                CREATE_NOTIFICATION: 'en-create-notification',
+                MODIFY_NOTIFICATION: 'en-modify-notification',
+                COMPLETE_NOTIFICATION: 'en-complete-notification'
+            },
+            init: function(element, options) {
+                var self = this;
+                options = AD.defaults({
                     templateDOM: '//opstools/EmailNotifications/views/EmailNotifications/EmailNotifications.ejs',
                     resize_notification: 'EmailNotifications.resize',
-                    tool:null   // the parent opsPortal Tool() object
-            }, options);
-            this.options = options;
-			this.notificationEditData = {};
-			
-            // Call parent init
-            this._super(element, options);
-			this.controllers = {};
-			this.wizardData = {};
-			this.dataSource = this.options.dataSource; 
-
-            this.initDOM();
-            this.controllersAttach();
-        },
-        
-		//Controller approach
-		controllersAttach:function(){
-			var self = this;
-			var Portal = AD.Control.get('opstools.EmailNotifications.Portal');
-			  this.controllers.Portal = new Portal( this.element.find('.en-portal'), {
-				triggerCreateNotification:this.CONST.CREATE_NOTIFICATION,
-				triggerModifyNotification:this.CONST.MODIFY_NOTIFICATION,
-				notificationEditData : this.notificationEditData
-			});
-				this.controllers.Portal.on(this.CONST.CREATE_NOTIFICATION, function() {
-				self.controllersShow('Wizard');
-			});
-			
-				this.controllers.Portal.on(this.CONST.MODIFY_NOTIFICATION, function() {
-					
-				var notificationId = self.notificationEditData.id;
-				 if(notificationId){
-						var Notification = AD.Model.get('opstools.EmailNotifications.ENNotification');
-						Notification.findOne({id:notificationId}).then(function(data){
-							console.log(data);
-							//self.wizardData.recipients = data.recipientId;
-							self.notificationEditData.notificationData = data;	
-							$.cookie('editRecipient',data.recipientId);	
-										
-							self.element.find('.en-table-recipients #'+data.recipientId).addClass('active');//recipient
-														
-							self.element.find('#notificationTitle').val(data.notificationTitle);
-							self.element.find('#emailSubject').val(data.emailSubject);
-							self.element.find('#fromName').val(data.fromName);
-							self.element.find('#fromEmail').val(data.fromEmail);
-							self.element.find('#notificationTitle').val(data.notificationTitle);							
-																	
-							self.element.find('#emailFrequency').val(data.emailFrequency);
-							if(data.templateDesignId!=undefined){								
-							self.element.find('#templateTitle').val(data.templateDesignId.templateTitle);
-							self.element.find('#templateBody').val(data.templateDesignId.templateBody);
-							}
-							
-							if(data.eventTrigger==''){
-								var startFrom = self.formatDate(data.startFrom);
-								var repeatUntil = self.formatDate(data.repeatUntil);							
-								self.element.find('#dateStartFrom').val(startFrom);
-								if(repeatUntil!=''){
-									self.element.find('#dateRepeatUntil').val(repeatUntil);
-								}else{
-									 self.element.find('#neverEnd').prop('checked',true);	
-									}						
-								var notification = '<a href="#">'+ data.emailFrequency +'</a> from <span>'+ startFrom +'</span> to <span>'+ repeatUntil+'</span>';
-								$('#basic-settings').html(notification);
-								 } else{
-								  self.element.find('.tabbable ul li:nth-child(2)').addClass('active');
-								  self.element.find('.tabbable ul li:nth-child(1)').removeClass('active');
-								  self.element.find('#basic').removeClass('active');
-								  self.element.find('#system').addClass('active');
-								  var notification = data.eventTrigger;
-								 }																					
-							});
-												
-					 }	
-					 
-				self.controllersShow('Wizard');
-			});
+                    tool: null // the parent opsPortal Tool() object
+                }, options);
+                this.options = options;
+                // Call parent init
+                this._super(element, options);
+                this.controllers = {};
+                this.currentController = null;
+                this.wizardData = {};
+                this.wizardData.notification = {};
+                this.wizardData.recipient = {};
+                this.wizardData.templateDesign = {};
+                this.wizardData.isEditing = false;
+                
+                this.wizardData.initWizardData = function() {
+                  this.isEditing = false;
+                  this.notification = {};
+                  this.recipient = {};
+                  this.templateDesign = {};
+                }
+                
+                this.initDOM();
+                this.controllersAttach();
+            },
+            //Controller approach
+            controllersAttach: function() {
+                var self = this;
+                var Portal = AD.Control.get('opstools.EmailNotifications.Portal');
+                this.controllers.Portal = new Portal(this.element.find('.en-portal'), {
+                    triggerCreateNotification: this.CONST.CREATE_NOTIFICATION,
+                    triggerModifyNotification: this.CONST.MODIFY_NOTIFICATION,
+                    wizardData: self.wizardData
+                });
+                this.controllers.Portal.on('en-notification-complete', function() {
+                    self.controllersShow('Portal');
+                });
+                this.controllers.Portal.on(this.CONST.CREATE_NOTIFICATION, function() {
+                    self.controllersShow('Wizard');
+                });
+                this.controllers.Portal.on(this.CONST.MODIFY_NOTIFICATION, function() {
 				
-			//this.controllers.Portal.show();
-			
-			var Wizard = AD.Control.get('opstools.EmailNotifications.Wizard');
-			this.controllers.Wizard = new Wizard(this.element.find('.en-wizard'),{
-				notificationEditData : this.notificationEditData
-				});
-			//this.controllers.Wizard.hide();
-			
-			this.controllersShow('Portal');
-			
-			},
-		
-		/**@ controllersShow
-		 * 
-		 * @param key.		
-		 * @param data.		
-		 *
-		 * @return date
-		 *
-		 * @author Edwin
-		 * @since 30 March 2015
-		 */
+                    // Load all data
+                    var ModelNotification = AD.Model.get('opstools.EmailNotifications.ENNotification'); //load notification model
+                    var ModelRecipient = AD.Model.get('opstools.EmailNotifications.ENRecipient'); // load recipient model
+                    var ModelTemplateDesign = AD.Model.get('opstools.EmailNotifications.ENTemplateDesign'); // load templateDesign
+                    
+                    /**
+                     * Get all the notification data and load for modification
+                     * 
+                     * */
+                     
+                    ModelNotification.findOne({
+                        id: self.wizardData.notification.id
+                    }, function(notification) {
+                        self.wizardData.notification = notification._data;
+                        ModelRecipient.findOne({
+                            id: self.wizardData.notification.recipientId
+                        }, function(recipient) {
+                            self.wizardData.recipient = recipient._data;
 
-		controllersShow: function( key, data ) {
+                            // add the data to various views
+                            var CtrlRecipient = self.controllers.Wizard.controllers.Recipients;
+                            var CtrlNotification = self.controllers.Wizard.controllers.Notifications;
+                            var CtrlTemplate = self.controllers.Wizard.controllers.Templates;
+                            var CtrlDesign = self.controllers.Wizard.controllers.Design;
+                            var CtrlConfirm = self.controllers.Wizard.controllers.Confirm;
 
-				for (var k in this.controllers) {
-					if (k == key) {
-						this.controllers[k].show(data);
-					} else {
-						this.controllers[k].hide();
-					}
-				}
-			},
+                            // Select a recipient in filterdbootstrap table
+                            CtrlRecipient.FilteredTable.select(self.wizardData.recipient);
+                            $el = CtrlRecipient.FilteredTable.table.find("[obj-id=" + self.wizardData.recipient.id + "]").parent().parent();
+                            CtrlRecipient.FilteredTable.selected($el);
 
+                            // Fill notification setup page
+                            CtrlNotification.form.find('#notificationTitle').val(self.wizardData.notification.notificationTitle);
+                            CtrlNotification.form.find('#emailSubject').val(self.wizardData.notification.emailSubject);
+                            CtrlNotification.form.find('#fromName').val(self.wizardData.notification.fromName);
+                            CtrlNotification.form.find('#fromEmail').val(self.wizardData.notification.fromEmail);
+                            
+                            // if wizard setup type basic/system
 
-        initDOM: function () {
+                            if(self.wizardData.notification.setupType == "Basic"){
 
-            this.element.html(can.view(this.options.templateDOM, {} ));
+                              CtrlNotification.form.find('#dateStartFrom').val(new Date(self.wizardData.notification.startFrom).toLocaleDateString());                             
+                              CtrlNotification.form.find('#emailFrequency').val(self.wizardData.notification.emailFrequency);
+                              
+                              if(self.wizardData.notification.repeatUntil!='0000-00-00'){
+								  
+								  CtrlNotification.form.find('#dateRepeatUntil').val(new Date(self.wizardData.notification.repeatUntil).toLocaleDateString());
+								  
+								}else{
+									
+									CtrlNotification.form.find('#neverEnd').attr('checked',true);
+									
+									}
+                            
+                              CtrlNotification.updateNotificationBar(); // Update notification setup bar
+                              
+                            }else{
+							
+							// if setupType "System" then make it active
+							
+							CtrlNotification.element.find('.tabbable ul li:nth-child(2)').addClass('active');
+							CtrlNotification.element.find('.tabbable ul li:nth-child(1)').removeClass('active');
+							CtrlNotification.element.find('#basic').removeClass('active');
+							CtrlNotification.element.find('#system').addClass('active');
 
-        },
+                            }
+                            // check if there was any template
+                            if (self.wizardData.notification.templateDesignId) {
 
-
-		
-
-        '.ad-item-add click': function ($el, ev) {
-
-            ev.preventDefault();
-        },
-        
-        /**@ formatDate
-		 * 
-		 * @param date.		
-		 *
-		 * @return date
-		 *
-		 * @author Edwin
-		 * @since 30 March 2015
-		 */
-        formatDate : function (someDate){
-			var someDate =  new Date(someDate);
-			var dd = someDate.getDate();
-			var mm = someDate.getMonth() + 1;
-			var y = someDate.getFullYear();
-			var formattedDate = mm + '/'+ dd + '/'+ y;
-			return formattedDate;
-			
-			},
-		
-			
-
-
+                              ModelTemplateDesign.findOne({
+                                  id: self.wizardData.notification.templateDesignId.id
+                              }, function(templateDesign) {
+                                  self.wizardData.templateDesign = templateDesign;
+                                  CtrlDesign.form.find('#templateTitle').val(self.wizardData.templateDesign.templateTitle);
+                                  CtrlDesign.form.find('#templateBody').val(self.wizardData.templateDesign.templateBody);
+                                  //////////////////////////////
+                                  // show controller
+                                  self.controllersShow('Wizard');
+                              })
+                            } else {
+                              self.controllersShow('Wizard');
+                            }
+                        });
+                    });
+                });
+                var Wizard = AD.Control.get('opstools.EmailNotifications.Wizard');
+                this.controllers.Wizard = new Wizard(this.element.find('.en-wizard'), {
+                    wizardData: self.wizardData,
+                    triggerCompleteNotification: this.CONST.COMPLETE_NOTIFICATION
+                });
+                this.controllers.Wizard.on(this.CONST.COMPLETE_NOTIFICATION, function() {
+                    self.controllers.Portal.notificationsLoad();
+                    self.controllersShow('Portal');
+                });
+                this.controllersShow('Portal');
+            },
+            
+            /**	@controllersShow
+             *
+             * @param key
+             * @param data
+             *
+             * @return 
+             *
+             * @author Edwin
+             * @since 30 April 2015
+             */
+             
+            controllersShow: function(key, data) {
+                for (var k in this.controllers) {
+                    if (k == key) {
+                        this.controllers[k].show(data);
+                    } else {
+                        this.controllers[k].hide();
+                    }
+                }
+            },
+            
+            /**	 @intDom
+             *
+             * @param null.
+             *
+             * @return 
+             *
+             * @author Edwin
+             * @since 30 April 2015
+             */
+            initDOM: function() {
+                this.element.html(can.view(this.options.templateDOM, {}));
+            },
+            
+            '.ad-item-add click': function($el, ev) {
+                ev.preventDefault();
+            },
+            
+            /**	 @function formatDate
+             *
+             * @param somedate.
+             *
+             * @return string
+             *
+             * @author Edwin
+             * @since 30 April 2015
+             */
+            formatDate: function(someDate) {
+                var someDate = new Date(someDate);
+                var dd = someDate.getDate();
+                var mm = someDate.getMonth() + 1;
+                var y = someDate.getFullYear();
+                var formattedDate = mm + '/' + dd + '/' + y;
+                return formattedDate;
+            },
+        });
     });
-
-
-});

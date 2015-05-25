@@ -6,8 +6,7 @@
  */
 
 
-module.exports = {
-	'get setSession'  : 'opstool-emailNotifications/ennotification.setRecipientId',
+module.exports = {	
 	'get isUniqeTitle'  : 'opstool-emailNotifications/enrecipient.isUniqeTitle',
 	'get isUniqeNotificationTitle'  : 'opstool-emailNotifications/ennotification.isUniqeNotificationTitle'
 
