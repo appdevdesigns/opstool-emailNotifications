@@ -8,8 +8,8 @@
     </div>
 </div>-->
     <!--  Base Portal Page with the [Create Notifications] button:  -->
-    <div class="page-wrap mockup-display en-portal">
-      <div class="container-fluid">
+    <div class="page-wrap mockup-display en-portal">     
+      <div class="container-fluid">       
         <div class="col-xs-12 text-right btn-notification-wrap">
           <a  mockup-show="en-wizard" class="btn btn-primary btn-grey en-portal-newNotification">Create Notifications</a>
         </div>
@@ -20,22 +20,23 @@
           <table class="table-notifications en-table-notifications" cellpadding="0" cellspacing="0" width="100%" data-height="300" data-toggle="table">
               <thead>
                 <tr>
-                  <th data-field="title" width="25%">Notification Title</th>
-                  <th data-field="title" width="25%">Notification Status</th>
-                  <th data-field="updatedAt" width="25%">Last Updated</th>
-                  <th width="25%"></th>
+                  <th data-field="title" width="40%">List Title</th>
+                  <th data-field="updatedAt" width="20%">Last Updated</th>
+                  <th width="40%"></th>
                 </tr>
-              </thead>
+              </thead> 
                <tbody>
-              <tr>
-				  <td  width="25%">title</td>
-				  <td  width="25%">updatedAt</td>
-				  <td  width="25%">status</td>
-				  <td class="text-center tmpl-options">
-					<a href="#" class="btn-modify" obj-id="[[=row.id]]" ><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
-					<a href="#" class="btn-delete" obj-id="[[=row.id]]"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
-				  </td>
-				</tr>
+               <!-- rows.forEach(function(notification){ -->            
+              <tr class="template" id="[[=notification.id]]">              
+                <td width="30%">[[= notification.attr('notificationTitle') ]]</td>
+                <td width="20%">[[= notification.attr('status') ]]</td>
+                <td width="20%">[[= new Date(notification.attr('updatedAt')).toDateString() ]]</td>
+                <td width="30%" class="text-center tmpl-options">
+                  <a href="#" class="btn-modify"  obj-id="[[= notification.id ]]"><i class="fa fa-pencil-square-o"></i><span>Modify</span></a>
+                  <a href="#" class="btn-delete"  obj-id="[[= notification.id ]]"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
+                </td>
+              </tr>
+                 <!-- }) -->
               <tr class="mockup">
                 <td width="40%"><input type="checkbox" /> Finanace Team</td>
                 <td width="20%">1/11/2015</td>
@@ -43,18 +44,18 @@
                   <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
                   <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
                 </td>
-              </tr>
+              </tr>             
               </tbody>
             </table><!-- /.table-notifications -->
-            </div>
+            </div>         
       </div><!-- /.container-fluid -->
     </div><!-- /.page-wrap -->
     <!-- Base Portal Page -->
-
+    
     <!-- Wizard -->
     <div class="mockup-display en-wizard en-formNotification en-formTemplate en-selectDesign en-designConfirm">
       <!-- Nav Bar -->
-      <header class="navbar-fixed-top">
+      <header class="navbar-fixed-top">       
         <nav class="navbar navbar-default">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-header">
@@ -69,10 +70,10 @@
               <ul class="nav navbar-nav">
                 <li class="en-wiz-nav" panel="Recipients"><a mockup-show="en-wizard"  href="#">Recipients</a> <i class="fa fa-angle-right push-right"></i></li>
                 <li class="active en-wiz-nav" panel="Notifications"><a mockup-show="en-formNotification" href="#">Setup</a> <i class="fa fa-angle-right push-right"></i></li>
-                <li class="en-wiz-nav" panel="Templates"><a mockup-show="en-formTemplate" href="#">Templates</a> <i class="fa fa-angle-right push-right"></i></li>
-                <li class="en-wiz-nav" panel="Design"><a mockup-show="en-selectDesign" href="#">Design</a> <i class="fa fa-angle-right push-right"></i></li>
-                <li class="en-wiz-nav" panel="Confirm"><a mockup-show="en-designConfirm" href="#">Confirm</a></li>
-              </ul>
+                <li class="en-wiz-nav" panel="Templates"><a mockup-show="en-formTemplate" href="#">Templates</a> <i class="fa fa-angle-right push-right"></i></li> 
+                <li class="en-wiz-nav" panel="Design"><a mockup-show="en-selectDesign" href="#">Design</a> <i class="fa fa-angle-right push-right"></i></li>  
+                <li class="en-wiz-nav" panel="Confirm"><a mockup-show="en-designConfirm" href="#">Confirm</a></li>                  
+              </ul>             
             </div><!-- /.navbar-collapse -->
         </nav><!-- /nav -->
       </header><!-- /.header -->
@@ -102,19 +103,19 @@
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                       </div>
                       <div class="modal-body">
-
+                       
 							<div class="form-horizontal en-add-recipients-form">
                               <div class="form-group">
                                   <label class="control-label col-md-2 no-pd-right" for="title">List Title:</label>
                                   <div class="col-md-10">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="200" placeholder="Enter List Title">
                                   </div>
-                              </div>
+                              </div>                        
                               <div class="form-group">
                                   <label class="control-label col-xs-12 text-left label-recipient" for="recipients">Email Recipients:</label>
                                   <div class="col-xs-12">
                                       <textarea rows="6" class="form-control" id="recipients" name="recipients" placeholder="Enter email addressesseprated by a comma (,)"></textarea>
-									  <input type="hidden" name="recipient_id" id="recipient_id" value="">
+									  <input type="hidden" name="recipient_id" id="recipient_id" value="">	
                                   </div>
                               </div>
                                <div class="form-group block-btn">
@@ -124,7 +125,7 @@
 									</div>
 								</div>
                               </div>
-
+                       
                       </div><!-- End of Modal body -->
                     </div><!-- End of Modal content -->
                   </div><!-- End of Modal dialog -->
@@ -136,33 +137,37 @@
                   <th data-field="updatedAt" width="20%">Last Updated</th>
                   <th width="40%"></th>
                 </tr>
-              </thead>
+              </thead> 
                <tbody>
-               <tr>
-				  <td>title</td>
-				  <td>updatedAt</td>
-				  <td class="text-center tmpl-options">
-					<a href="#" class="btn-modify" obj-id="[[= row.id ]]" ><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
-					<a href="#" class="btn-delete" obj-id="[[= row.id ]]"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
-				  </td>
-				</tr>
-              <tr>
+               <!-- rows.forEach(function(recipient){ -->            
+              <tr class="template" id="[[= recipient.id]]">              
+                <td width="40%">[[= recipient.attr('title') ]]</td>
+                <td width="30%">[[= new Date(recipient.attr('updatedAt')).toDateString() ]]</td>
+                <td width="30%" class="text-center tmpl-options">
+                  <a href="#" class="btn-modify" obj-id="[[=recipient.id]]"><i class="fa fa-pencil-square-o"></i><span>Modify</span></a>
+                  <a href="#" class="btn-delete" obj-id="[[=recipient.id]]"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
+                </td>
+              </tr>
+                 <!-- }) -->
+              <tr class="mockup">
                 <td width="40%"><input type="checkbox" /> Finanace Team</td>
                 <td width="20%">1/11/2015</td>
                 <td width="40%" class="text-center">
                   <a href="#" class="btn-modify"><i class="fa fa-pencil-square-o"></i> <span>Modify</span></a>
                   <a href="#" class="btn-delete"><i class="fa fa-trash-o"></i> <span>Delete</span></a>
                 </td>
-              </tr>
+              </tr>             
               </tbody>
             </table><!-- /.table-notifications -->
           </div><!-- /.col-xs-12 -->
-          <!--<div class="col-lg-8 col-md-9 col-sm-12 text-right btn-wrap btn-wrap-recipient">
+          <div class="col-lg-8 col-md-9 col-sm-12 text-right btn-wrap btn-wrap-recipient">
             <a mockup-show="en-formNotification" class="btn btn-default btn-black en-wiz-recipients-next">Next <i class="fa fa-arrow-right"></i></a>
-          </div>--><!-- /.col-xs-12 -->
+          </div><!-- /.col-xs-12 -->
         </div><!-- /.container-fluid -->
       </div><!-- /.page-wrap -->
       <!-- End Choose The Receipients panel -->
+
+
       <!-- Form Notification -->
       <div class="page-wrap mockup-display en-formNotification en-wizard-formNotification">
         <div class="container-fluid" id="frmNotification-setup">
@@ -173,7 +178,7 @@
             <!--<form role="form"> -->
               <div class="form-group">
                 <label for="title">Notification Title</label>
-                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle">
+                <input type="text" class="form-control" id="notificationTitle" name="notificationTitle" value="[[= data.attr('notificationTitle') ]]">
               </div>
               <div class="form-group">
                 <label for="email">Email Subject</label>
@@ -185,12 +190,12 @@
               </div>
               <div class="form-group">
                 <label for="email">From Email</label>
-                <input type="email" class="form-control" id="fromEmail" name="fromEmail">
+                <input type="email" class="form-control" id="fromEmail" name="fromEmail">                
               </div>
            <!-- </form>-->
           </div><!-- /.form-notifications -->
           <div class="col-lg-7 col-md-6 col-sm-8 col-lg-offset-1 col-md-offset-1 form-tab">
-            <p><strong>Select how you want to send notifications:</strong></p>
+            <p><strong>Select how you want to send notifications:</strong></p>          
             <div class="tabbable tabs-left">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
@@ -220,7 +225,7 @@
                           <option value="Yearly">Yearly</option>
                         </select>
                       </div>
-                    </div>
+                    </div>                 
                     <div class="form-group">
 					  <div class="col-lg-3 col-sm-5 col-md-4">
 							<label>Repeat until:</label>
@@ -235,7 +240,7 @@
 						</div>
 					 </div>
                     <div class="form-bottom">
-                      <p id="basic-settings">The Notification will be sent <span><a href="#">Everyday</a></span></p>
+                      <p>The Notification will be sent <span id="basic-settings"><a href="#">Everyday</a> from <span>1/12/2015</span> to <span>6/12/2015</span></span></p>
                       <a mockup-show="en-formTemplate" class="btn btn-default btn-black en-wiz-notifications-next">Next <i class="fa fa-arrow-right"></i></a>
                     </div><!-- /.form-bottom -->
                   </div><!-- /.tab-inner -->
@@ -250,7 +255,7 @@
                     </div>
                     <div class="form-group">
                       <div class="input-group date col-lg-8 col-md-10 col-sm-10 col-lg-offset-1 col-xs-12">
-                        <select class="form-control" name="eventTrigger">
+                        <select class="form-control">
                           <option>13 Month Report Completed</option>
                         </select>
                       </div>
@@ -267,7 +272,7 @@
         </div><!-- /.container-fluid -->
       </div><!-- /.page-wrap -->
       <!-- End Form Notification -->
-
+      
       <!-- Form Template -->
       <div class="page-wrap mockup-display en-formTemplate en-wizard-formTemplate">
 			<div class="container-fluid">
@@ -286,7 +291,7 @@
 			</div><!-- /.container-fluid -->
 		</div><!-- /.page-wrap -->
       <!-- End Form Template -->
-
+      
       <!-- Template Design -->
       <div class="page-wrap mockup-display en-selectDesign en-wizard-selectDesign">
 		<div class="container-fluid" id="frmDesign-setup">
@@ -297,8 +302,8 @@
 				<!--<form role="form">-->
 					<div class="form-group">
 						<label for="title">Template Title</label>
-						<input type="text" class="form-control" id="templateTitle" name="templateTitle">
-					</div>
+						<input type="text" class="form-control" id="title" name="templateTitle">
+					</div>						
 				<!--</form>-->
 			</div><!-- /.form-notifications -->
 			<div class="col-lg-7 col-md-7 col-sm-8 col-lg-offset-1">
@@ -306,7 +311,7 @@
 					<span>HTML</span>
 					<div class="inner-text-box">
 						<h4>Enter Your Text</h4>
-						<textarea name="templateBody" id="templateBody"></textarea>
+						<textarea name="templateBody" id="templateBody"></textarea>							
 					</div><!-- /.inner-text-box -->
 					<div class="text-right">
 						<a mockup-show="en-designConfirm" class="btn btn-default btn-black en-wiz-design-template-next">
@@ -318,7 +323,7 @@
 		</div><!-- /.container-fluid -->
 	  </div><!-- /.page-wrap -->
       <!-- End Template Design -->
-
+      
       <!-- Design Confirm -->
       <div class="page-wrap mockup-display en-designConfirm en-wizard-designConfirm">
 		<div class="container-fluid">
@@ -328,19 +333,19 @@
 			<div class="col-lg-5 col-md-5 col-sm-12 block-confirm-notification">
 				<p><strong>Please recheck the notification details:</strong></p>
 				<ul>
-					<li><strong>[[=numRecipients]] Recipients</strong> are selected</li>
+					<li><strong>[[= numRecipients]] Recipients</strong> are selected</li>
 					<li>Subject is "<strong>[[= notification.notificationSubject]]</strong>"</li>
 					<li>Sending conditions based on "<strong>[[=notification.setupShortDesc]]</strong>"</li>
-					<li>Template selected is "<strong>[[= 'One Column']]</strong>"</li>
-					<li>HTML text is given using the "<strong>[[= notification.templateDesignId.templateTitle]]</strong>" Design</li>
+					<li>Template selected is "<strong>[[= notification.selectedTemplate]]</strong>"</li>
+					<li>HTML text is given using the "<strong>[[= notification.templateType]]</strong>" Design</li>
 				</ul>
 			</div>
 			<div class="col-lg-6 col-md-7 col-sm-12 col-lg-offset-1 textarea-confirm">
 				<p><strong>This is the preview of the notification you are sending:</strong></p>
-				<div class="textarea-section">
+				<div class="textarea-section">						
 					<div class="inner-text-box">
-						<p class="subject-text"><em>Subject:</em> <strong>[[= notification.notificationSubject]]</strong></p>
-						<div class="confirm-box"><pre>[[=notification.templateDesignId.templateBody]]</pre></div>
+						<p class="subject-text"><em>Subject:</em> <strong>[[=notification.templateSubject]]</strong></p>
+						<div class="confirm-box">[[=notification.templateBody]]</div>							
 					</div>
 					<div class="text-right confirm-bottom">
 						<p>Please confirm your Notification</p>

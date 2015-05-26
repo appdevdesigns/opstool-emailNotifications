@@ -7,8 +7,10 @@ steal(
     // AD.Model.extend('[application].[Model]', {static}, {instance} );  --> Object
     AD.Model.extend('opstools.EmailNotifications.ENNotification', {
 
-        findAll: 'GET /opstool-emailNotifications/ennotification',
-        findOne: 'GET /opstool-emailNotifications/ennotification/{id}',
+       /* findAll: 'GET /opstool-emailNotifications/ennotification',*/
+        findAll: { url: '/opstool-emailNotifications/ennotification', method: 'GET', dataType: 'json', cache: false} ,
+        //findOne: 'GET /opstool-emailNotifications/ennotification/{id}',
+        findOne: {url:'/opstool-emailNotifications/ennotification/{id}',method: 'GET', dataType: 'json', cache: false},
         create:  'POST /opstool-emailNotifications/ennotification',
         update:  'PUT /opstool-emailNotifications/ennotification/{id}',
         destroy: 'DELETE /opstool-emailNotifications/ennotification/{id}',

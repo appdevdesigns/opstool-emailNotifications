@@ -14,22 +14,54 @@ module.exports = {
         rest: true
     },
 	
+	/**
+	 * @function isUniqeTitle
+	 * @param req
+	 * @param res
+	 * return object
+	 * author Edwin
+	 * since  25-May-2015
+	 */
+	 
 	isUniqeTitle : function(req,res){
-		var title = req.param('title');
 		var id    = req.param('id');	
+		var params = {};
+			params.title = req.param('title');
+		if (id) {
+				params.id =  { '!' : + id };
+		}
+	
 		
-		ENRecipient.findByTitle(title).exec(function(err, recipient){
-				if(err){ 
-					return res.send(500,err);
-				}
-				if(recipient.length > 0){ 
-					return res.send('DuplicateError',400);
-				}else{
-						return res.send('Success',200);
-					}
+		ENRecipient.find(params).exec(function(err, recipient){		
+			
+						return res.send(recipient);
+					
 			});
 				
-	}	
+	},
+	
+	/**
+	 * @function getRecipientCount
+	 * @param req
+	 * @param res
+	 * return string
+	 * author Edwin
+	 * since  25-May-2015
+	 */
+	 
+	getRecipientCount : function(req, res){
+				ENRecipient.findById(id).exec(function(err, recipient){
+				if(recipient.length > 0){ 
+					var selectedRecipient = recipient.recipients.split(',');
+					var totalRecipient = selectedRecipient.length;
+					return totalRecipient;			
+				}	
+			
+		});	
+		
+		
+		}	
+	
 	
 		
 };
