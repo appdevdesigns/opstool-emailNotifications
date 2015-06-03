@@ -100,13 +100,18 @@ steal(
                               CtrlNotification.form.find('#dateStartFrom').val(new Date(self.wizardData.notification.startFrom).toLocaleDateString());                             
                               CtrlNotification.form.find('#emailFrequency').val(self.wizardData.notification.emailFrequency);
                               
-                              if(self.wizardData.notification.repeatUntil!='0000-00-00'){
+                              if(self.wizardData.notification.isForever === 0){
 								  
 								  CtrlNotification.form.find('#dateRepeatUntil').val(new Date(self.wizardData.notification.repeatUntil).toLocaleDateString());
 								  
 								}else{
-									
-									CtrlNotification.form.find('#neverEnd').attr('checked',true);
+									//reset value if selected never end
+									CtrlNotification.form.find('#neverEnd').prop('checked',true);
+									CtrlNotification.form.find('#dateRepeatUntil').val(' ');
+									CtrlNotification.form.find('#dateRepeatUntil').attr('disabled', true);
+									CtrlNotification.form.find('#dateRepeatUntil').hide();
+									CtrlNotification.form.find('#no-date').show();
+									CtrlNotification.form.find('#repeatUntil .input-group-addon').hide();
 									
 									}
                             

@@ -964,7 +964,7 @@ button.close {
 	background-color:#fff; 
 	border:1px solid #ccc; 
 	padding:10px;
-	overflow: scroll;
+	overflow-y: scroll;
 }
 
 .en-table-recipients tbody .active {
