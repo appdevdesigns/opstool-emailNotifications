@@ -30,7 +30,9 @@ module.exports = {
     
     repeatUntil : { type: 'date' },
     
-    nextNotificationDate : { type: 'date' },
+    notificationSendDate : { type: 'date' },
+    
+    isForever   : {type:'integer', size: 2, defaultsTo:0},
     
     templateDesignId :{ 
 		

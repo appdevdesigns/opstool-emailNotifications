@@ -82,7 +82,6 @@ steal(
                   if(this.element.find('.tabbable ul li').eq(0).hasClass('active')) {
                       obj.setupType = 'Basic';
                       obj.eventTrigger = '';
-                      obj.nextNotificationDate = obj.startFrom;
                   } else {
                       obj.setupType = 'System';
                       obj.startFrom = null;
@@ -152,18 +151,24 @@ steal(
               if (this.validateFormData(obj) && this.validateBasicTab(obj)) {
                   var Model = AD.Model.get('opstools.EmailNotifications.ENNotification');
                   obj.recipientId = self.options.wizardData.recipient.id;
+                    // Check for  Never end
+                  if(obj.neverEnd=='on'){
+					   obj.repeatUntil = this.getFutureDate();
+					   obj.isForever = '1';
+				  }else{
+						obj.isForever = '0';
+					  }
+					  
                   if (obj.startFrom != '') {
                       obj.setupType = 'Basic';
-                      obj.eventTrigger = '';
-                      obj.nextNotificationDate = obj.startFrom;
+                      obj.eventTrigger = '';  
+                      obj.notificationSendDate = this.updateNotificationSchedule(obj);                   
+                      
                   } else {
                       obj.setupType = 'System';
                   }
                   
-                  if(obj.neverEnd=='on'){
-					   obj.repeatUntil = '';
-					  }
-					  
+                   
                   var notificationId = self.options.wizardData.notification.id;
                   if (notificationId) {
                       Model.update(notificationId, obj); //Update notificationId
@@ -397,24 +402,35 @@ steal(
              *
              */
             '#neverEnd click': function($el, ev) {
-                 var obj = this.formValues();
-                 var self = this;
-                if (obj.neverEnd == 'on') {
-                    this.element.find('#dateRepeatUntil').val(' ');
-                    this.element.find('#dateRepeatUntil').attr('disabled', true);
-                    this.element.find('#dateRepeatUntil').hide();
-                    this.element.find('#no-date').show();
-                    this.element.find('#repeatUntil .input-group-addon').hide();
-                } else {
-                    this.element.find('#dateRepeatUntil').show();
-                    this.element.find('#no-date').hide();
-                    this.element.find('#dateRepeatUntil').attr('disabled', false);
-                    this.element.find('#repeatUntil .input-group-addon ').show();
-                }
-                self.updateNotificationBar();
+                  var self = this;
+					self.clearRepeatUntil(); // clear repeat until field
+					self.updateNotificationBar(); // update notification bar
             },
             
-            
+           /**
+             * @clearRepeatUntil
+             * @to clear repeat until field
+             * 
+             * 
+             */
+             
+             clearRepeatUntil: function(){ 
+				var neverEnd = this.element.find('#neverEnd').is(':checked');				
+					  if (neverEnd) {
+						this.element.find('#dateRepeatUntil').val(' ');
+						this.element.find('#dateRepeatUntil').attr('disabled', true);
+						this.element.find('#dateRepeatUntil').hide();
+						this.element.find('#no-date').show();
+						this.element.find('#repeatUntil .input-group-addon').hide();
+					} else {						
+						this.element.find('#dateRepeatUntil').show();
+						this.element.find('#no-date').hide();
+						this.element.find('#dateRepeatUntil').attr('disabled', false);
+						this.element.find('#repeatUntil .input-group-addon ').show();
+					}
+				 
+				 },
+				 
            /**
              * @updateNotificationBar
              * @ to update notification bar
@@ -493,6 +509,18 @@ steal(
 				},
 				
 			/**
+             * @ getFutureDate
+             * @ to get futuredate if repeatUntil is blank
+             * @ param $el
+             * @ param ev
+             * return void
+             */
+             
+			getFutureDate :function(){				
+					var currentDate = new Date(); //current date
+					return new Date(currentDate.getFullYear()+100, currentDate.getMonth(), currentDate.getDate());
+				},	
+			/**
              * @ emailFrequency change
              * @ to chage the notification bar
              * @ param $el
@@ -502,8 +530,27 @@ steal(
              '#emailFrequency change': function($el, ev) {
 					var self = this; 
 					self.updateNotificationBar(); 
-				 }
-             			
+				 },
+		    
+		    /**@ updateNotificationSchedule
+			 * 					
+			 * @param obj			
+			 *
+			 * @return void
+			 *
+			 * @author Edwin
+			 * @since 15 May 2015
+			 */
+				
+		updateNotificationSchedule : function(notification){
+			var self = this;	
+			var notificationDate =  new Date(notification.startFrom); //get start from date	
+			var oneDayless = new Date(notificationDate.getFullYear(), notificationDate.getMonth(), notificationDate.getDate()-1);		
+			var notificationSendDate = (self.options.wizardData.notification.notificationSendDate) ? new Date(self.options.wizardData.notification.notificationSendDate) : oneDayless;// schedule date on database
+			
+			return notificationSendDate;				
+			}
+					
 			
         });
     });

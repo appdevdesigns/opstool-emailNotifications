@@ -134,8 +134,12 @@ steal(
               this.controllers.Notifications.form.find('#dateStartFrom').val('');
               this.controllers.Notifications.form.find('#emailFrequency').val('Everyday');
               this.controllers.Notifications.form.find('#dateRepeatUntil').val('');
+              this.controllers.Notifications.form.find('#neverEnd').prop('checked',false);
+              this.controllers.Notifications.form.find('#dateRepeatUntil').show();
+			  this.controllers.Notifications.form.find('#no-date').hide();
+			  this.controllers.Notifications.form.find('#dateRepeatUntil').attr('disabled', false);
+			  this.controllers.Notifications.form.find('#repeatUntil .input-group-addon ').show();
               this.controllers.Notifications.form.find('#basic-settings').html('The Notification will be sent <a href="#"> Everyday</a>');
-
               this.controllers.Notifications.element.find('.tabbable ul li:nth-child(2)').removeClass('active');
               this.controllers.Notifications.element.find('.tabbable ul li:nth-child(1)').addClass('active');
               this.controllers.Notifications.element.find('#basic').addClass('active');
@@ -355,7 +359,7 @@ steal(
                     var setupShortDesc = notification.emailFrequency;
                     setupShortDesc += ' from ';
                     setupShortDesc += new Date(notification.startFrom).toDateString();
-                    if (notification.repeatUntil != '0000-00-00') {
+                    if (notification.isForever == 0) {
                         setupShortDesc += ' to ' + new Date(notification.repeatUntil).toDateString();
                     } else {
                         setupShortDesc += '';

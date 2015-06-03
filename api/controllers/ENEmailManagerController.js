@@ -29,16 +29,14 @@ module.exports = {
 		var currentDate = new Date().toISOString().slice(0,10); 
 		
 		//Find notification based on schedule date 
+		var filterQuery = " SELECT id, emailSubject, fromName, fromEmail, templateDesignId, recipientId FROM en_notification WHERE CURDATE() >= startFROM AND CURDATE()<= repeatUntil AND ( notificationSendDate < CURDATE() OR notificationSendDate IS NULL) AND status='Active' AND setupType='Basic'";	
 				
-		ENNotification.find().where({"repeatUntil":{ ">=":currentDate}, "nextNotificationDate":currentDate,"status":"Active","setupType":"Basic"}).then(function(notifications){
+		ENNotification.query(filterQuery, function(err,notifications){
 		
 				if(notifications.length > 0){
 					
 						notifications.forEach(function(notify){
-							
-							//ENNotification.update('');
-							self.updateNotificationSchedule(notify); // update next schedule date
-							
+																				
 								//Find the recipient List for notification
 								
 								ENRecipient.findOne({id:notify.recipientId}).then(function(recipient){
@@ -81,7 +79,7 @@ module.exports = {
 												obj.log = response;     // log
 												//Create notification log
 												self.createNotificationLog(obj);	//set notification log	
-												//console.log('sent email');
+												self.updateNotificationSchedule(notify); // update next schedule date
 											
 											});
 										
@@ -89,11 +87,7 @@ module.exports = {
 									 
 									});
 							});
-					}else{
-						
-							console.log('No Email Scheduled');
-						
-						}
+					}
 					
 				});
 		},
@@ -113,9 +107,7 @@ module.exports = {
 			//Create notification log
 				ENNotificationLog.create(obj).fail(function(err){
 					 console.log(err);
-					}).then(function(response){
-					  console.log(response);
-					});							
+					}).then(function(response){	});							
 		
 		},   
     
@@ -129,31 +121,26 @@ module.exports = {
 		 * @since 15 May 2015
 		 */
 		 	
-	updateNotificationSchedule : function(notification){
-		
-		var notificationFrequency = notification.emailFrequency;
+	 updateNotificationSchedule : function(notification){		
 		var currentDate = new Date();
-		var nextSchedule = '';
+		var notificationFrequency = notification.emailFrequency;	
+		var nextSchedule = currentDate;
 		
 		 if(notificationFrequency == 'Everyday'){	
 			 		
-				nextSchedule = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()+1); // New date +1 day ahead
+				nextSchedule = currentDate; 
 																		
 			 }else if(notificationFrequency == 'Monthly'){
 				 
-				nextSchedule = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, currentDate.getDate()); // New date +1 month ahead
+				nextSchedule = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, currentDate.getDate()-1); // New date +1 month ahead
 				 
 			}else if(notificationFrequency == 'Yearly'){
 					 
-				nextSchedule = new Date(currentDate.getFullYear()+1, currentDate.getMonth(), currentDate.getDate()); // New date +1 Year ahead
+				nextSchedule = new Date(currentDate.getFullYear()+1, currentDate.getMonth(), currentDate.getDate()-1); // New date +1 Year ahead
 					  
 			 }
-			
-			//Update the schedule date					 
-			ENNotification.update(notification.id,{'nextNotificationDate': nextSchedule}).then(function(){
-							console.log('Schedule updated');
-																
-				});			 
+			 
+			ENNotification.update(notification.id,{'notificationSendDate': nextSchedule}).then( function(){});
 		
 		}
 };
