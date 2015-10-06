@@ -30,9 +30,14 @@ module.exports = {
 		
 		//Find notification based on schedule date 
 				
-		ENNotification.find().where({"repeatUntil":{ ">=":currentDate}, "nextNotificationDate":currentDate,"status":"Active","setupType":"Basic"}).then(function(notifications){
+		ENNotification.find().where({
+		  "repeatUntil": { ">=": currentDate }, 
+		  "nextNotificationDate": currentDate,
+		  "status": "Active",
+		  "setupType": "Basic" 
+		}).then(function(notifications){
 		
-				if(notifications.length > 0){
+				if (notifications.length > 0){
 					
 						notifications.forEach(function(notify){
 							
@@ -51,7 +56,7 @@ module.exports = {
 											var email = {
 												from : notify.fromName +"<"+ notify.fromEmail +">",
 												to: recipient.recipients,
-												subject:notify.emailSubject,
+												subject : notify.emailSubject,
 												html : template.templateBody
 											}
 											
