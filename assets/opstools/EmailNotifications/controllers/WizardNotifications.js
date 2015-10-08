@@ -491,6 +491,18 @@ steal(
 			getRepeatUntil :function(){
 					return this.element.find('#dateRepeatUntil').val();
 				},
+			
+			/**
+             * @ getEventTrigger
+             * @ to get 'eventTrigger' field value
+             * @ param $el
+             * @ param ev
+             * return string
+             */
+             
+			getEventTrigger: function(){
+					return this.element.find('#eventTrigger').val();
+				},
 				
 			/**
              * @ emailFrequency change

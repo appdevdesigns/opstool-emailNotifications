@@ -135,6 +135,7 @@ steal(
               this.controllers.Notifications.form.find('#emailFrequency').val('Everyday');
               this.controllers.Notifications.form.find('#dateRepeatUntil').val('');
               this.controllers.Notifications.form.find('#basic-settings').html('The Notification will be sent <a href="#"> Everyday</a>');
+              this.controllers.Notifications.form.find('#eventTrigger').val('');
 
               this.controllers.Notifications.element.find('.tabbable ul li:nth-child(2)').removeClass('active');
               this.controllers.Notifications.element.find('.tabbable ul li:nth-child(1)').addClass('active');
@@ -295,9 +296,6 @@ steal(
               }
             },
 
-            '.ad-item-add click': function($el, ev) {
-                ev.preventDefault();
-            },
 
             /**	@ getNumRecipients
              *

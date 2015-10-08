@@ -97,6 +97,7 @@ steal(
                         CtrlNotification.form.find('#emailSubject').val(self.wizardData.notification.emailSubject);
                         CtrlNotification.form.find('#fromName').val(self.wizardData.notification.fromName);
                         CtrlNotification.form.find('#fromEmail').val(self.wizardData.notification.fromEmail);
+                        CtrlNotification.form.find('#eventTrigger').val(self.wizardData.notification.eventTrigger);
                         
                         // if wizard setup type basic/system
 
