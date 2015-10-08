@@ -12,16 +12,18 @@ steal(
         destroy: 'DELETE /ennotification/{id}',
         describe: function() {
             return {
-          "notificationTitle": "string",
-          "emailSubject": "text",
-          "fromName": "string",
-          "fromEmail": "string",
-          "startFrom": "date",
-          "emailFrequency":"string",
-          "recipientListId":"integer",
-          "repeatUntil":"date"
-};
+              "notificationTitle": "string",
+              "emailSubject": "text",
+              "fromName": "string",
+              "fromEmail": "string",
+              "startFrom": "date",
+              "emailFrequency":"string",
+              "recipientListId":"integer",
+              "templateDesignId":"integer",
+              "repeatUntil":"date"
+            };
         },
+        associations: ['recipientListId', 'templateDesignId'],
         fieldId:'id',
         fieldLabel:'notificationTitle'
     },{

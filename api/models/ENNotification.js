@@ -32,16 +32,18 @@ module.exports = {
     
     nextNotificationDate : { type: 'date' },
     
-    templateDesignId :{ 
-		
-			model : 'ENTemplateDesign' 
-		},
+    templateDesignId :{  
+		model : 'ENTemplateDesign' 
+	},
     
-    recipientId :{ type : 'integer'},   
-     status :{
-			type:'string',			
-			defaultsTo:'draft'
-		}
+    recipientId : { 
+        model: 'ENRecipient'
+    },   
+    
+    status : {
+		type:'string',			
+		defaultsTo:'draft'
+	}
     
   }
 };

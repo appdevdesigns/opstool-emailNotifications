@@ -12,10 +12,10 @@ steal(
         create:  'POST /opstool-emailNotifications/ennotification',
         update:  'PUT /opstool-emailNotifications/ennotification/{id}',
         destroy: 'DELETE /opstool-emailNotifications/ennotification/{id}',
-        */
         describe: function() {},   // returns an object describing the Model definition
         fieldId: 'id',             // which field is the ID
         fieldLabel:'notificationTitle'      // which field is considered the Label
+        */
 
     },{
 /*
