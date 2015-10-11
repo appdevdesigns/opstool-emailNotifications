@@ -122,13 +122,29 @@ module.exports= {
      */ 
     sendScheduledEmail: function() {
         var self = this;
-        var currentDate = new Date().toISOString().slice(0,10); 
+        
+        // Must convert date to a string. Waterline ORM does not work well
+        // when comparing a timeless 'DATE' DB field with a js Date object.
+        // Also, do not use toISOString() because of timezone issues.
+        // Too bad we can't get Waterline to just call NOW() in SQL.
+        var now = new Date();
+        var pad = function(num) {
+            if (num < 10) {
+                return '0' + num;
+            } else {
+                return String(num);
+            }
+        };
+        var dateString = '' 
+                + now.getFullYear() + '-'
+                + pad(now.getMonth()+1) + '-'
+                + pad(now.getDate());
         
         // Find notification based on schedule date 
         ENNotification.find()
         .where({
-            "repeatUntil": { ">=": currentDate }, 
-            "nextNotificationDate": currentDate,
+            "repeatUntil": { ">=": dateString }, 
+            "nextNotificationDate": dateString,
             "status": "Active",
             "setupType": "Basic" 
         })
@@ -181,7 +197,7 @@ module.exports= {
         
         if (notificationFrequency == 'Everyday') { 
             // New date +1 day ahead
-            nextSchedule = new Date(y, m, d+1); 
+            nextSchedule = new Date(y, m, d+1);
         }
         else if (notificationFrequency == 'Monthly') {
             // New date +1 month ahead
@@ -197,7 +213,7 @@ module.exports= {
             'nextNotificationDate': nextSchedule
         })
         .then(function(){
-            console.log('Schedule updated');
+            //console.log('Schedule updated: ' + notification.nextNotificationDate + ' -> ' + nextSchedule);
         });      
       
     },
