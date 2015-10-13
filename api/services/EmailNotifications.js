@@ -248,6 +248,7 @@ module.exports= {
      */
     trigger: function(name, data) {
         var dfd = AD.sal.Deferred();
+        var self = this;
         
         // Parse out the 'email.' prefix from the name if needed
         name = name.replace(/^email\./, '');
@@ -259,31 +260,38 @@ module.exports= {
         .then(function(list) {
             async.each(list, function(row, next) {
                 
-                // Merge variables into template
                 var template = row.templateDesignId.templateBody;
-                var body = ejs.render(template, data.variables);
                 
-                // Merge in dynamic recipients
-                var recipients = row.recipientId.recipients;
-                data.to = data.to || [];
-                if (data.to.length > 0) {
-                    recipients += ',' + data.to.join(',');
+                try {
+                    // Merge variables into template
+                    var body = ejs.render(template, data.variables);
+                    
+                    // Merge in dynamic recipients
+                    var recipients = row.recipientId.recipients;
+                    data.to = data.to || [];
+                    if (data.to.length > 0) {
+                        recipients += ',' + data.to.join(',');
+                    }
+                    
+                    self.send({
+                        notify: {
+                            id: row.id,
+                            fromName: row.fromName,
+                            fromEmail: row.fromEmail,
+                            emailSubject: row.emailSubject,
+                        },
+                        recipients: recipients,
+                        body: body
+                    })
+                    .fail(next)
+                    .done(function() {
+                        next(null);
+                    });
+                
+                } catch (err) {
+                    console.log('Template merge error', err);
+                    next(err);
                 }
-                
-                self.send({
-                    notify: {
-                        id: row.id,
-                        fromName: row.fromName,
-                        fromEmail: row.fromEmail,
-                        emailSubject: row.emailSubject,
-                    },
-                    recipients: recipients,
-                    body: body
-                })
-                .fail(next)
-                .done(function() {
-                    next(null);
-                });
             
             }, function(err) {
                 if (err) {
@@ -298,7 +306,7 @@ module.exports= {
         })
         .fail(function(err) {
             // DB error
-            console.error(err);
+            console.error('DB error:', err);
             dfd.reject(err);
         });
         
