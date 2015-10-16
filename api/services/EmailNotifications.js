@@ -143,11 +143,13 @@ module.exports= {
         // Find notification based on schedule date 
         ENNotification.find()
         .where({
-            "repeatUntil": { ">=": dateString }, 
-            "nextNotificationDate": dateString,
+            "repeatUntil": { '>=': dateString }, 
+            "nextNotificationDate": { '<=': dateString },
             "status": "Active",
             "setupType": "Basic" 
         })
+        .populate('recipientId')
+        .populate('templateDesignId')
         .then(function(notifications){
             if (notifications.length > 0) {
                 notifications.forEach(function(notify){
@@ -155,22 +157,12 @@ module.exports= {
                     // update next schedule date
                     self.updateNotificationSchedule(notify);
                     
-                    // Find the recipient List for notification
-                    ENRecipient.findOne({id:notify.recipientId})
-                    .then(function(recipient){
-                      
-                        // Find the Template design for notification
-                        ENTemplateDesign.findOne({id:notify.templateDesignId})
-                        .then(function(template){
-                          
-                            self.send({
-                                notify: notify,
-                                recipients: recipient.recipients,
-                                body: template.templateBody
-                            });
-                            
-                        });
+                    self.send({
+                        notify: notify,
+                        recipients: notify.recipientId.recipients,
+                        body: notify.templateDesignId.templateBody
                     });
+                    
                 });
             }
         });
@@ -283,19 +275,23 @@ module.exports= {
                         recipients: recipients,
                         body: body
                     })
-                    .fail(next)
+                    .fail(function(err) {
+                        console.error('Send error: ', err);
+                        next(err);
+                    })
                     .done(function() {
                         next(null);
                     });
                 
                 } catch (err) {
-                    console.log('Template merge error', err);
+                    console.error('Template merge error', err);
                     next(err);
                 }
             
             }, function(err) {
                 if (err) {
                     // Some problem with one or more entries
+                    console.error('email notification entry problem', err);
                     dfd.reject(err);
                 }
                 else {
@@ -319,7 +315,6 @@ module.exports= {
      * Send out a notification through Nodemailer
      *
      * @param object opts
-     * @param obj
      *  {
      *      notify: <ENNotification obj>,
      *      recipients: <string>,
@@ -347,8 +342,6 @@ module.exports= {
         //Send Email with Nodemailer
         
         var obj = {};
-        var status = '';  
-              
         obj.notificationId = notify.id;
         obj.sendDate = new Date();
           
