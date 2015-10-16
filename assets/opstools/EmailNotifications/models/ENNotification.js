@@ -6,10 +6,8 @@ steal(
     // Namespacing conventions:
     // AD.Model.extend('[application].[Model]', {static}, {instance} );  --> Object
     AD.Model.extend('opstools.EmailNotifications.ENNotification', {
-
-       /* findAll: 'GET /opstool-emailNotifications/ennotification',*/
+        /*
         findAll: { url: '/opstool-emailNotifications/ennotification', method: 'GET', dataType: 'json', cache: false} ,
-        //findOne: 'GET /opstool-emailNotifications/ennotification/{id}',
         findOne: {url:'/opstool-emailNotifications/ennotification/{id}',method: 'GET', dataType: 'json', cache: false},
         create:  'POST /opstool-emailNotifications/ennotification',
         update:  'PUT /opstool-emailNotifications/ennotification/{id}',
@@ -17,6 +15,7 @@ steal(
         describe: function() {},   // returns an object describing the Model definition
         fieldId: 'id',             // which field is the ID
         fieldLabel:'notificationTitle'      // which field is considered the Label
+        */
 
     },{
 /*

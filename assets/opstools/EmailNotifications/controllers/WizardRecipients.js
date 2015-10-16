@@ -222,9 +222,11 @@ steal(
                 var obj = this.formValues();
                 var Model = AD.Model.get('opstools.EmailNotifications.ENRecipient');
                 if (this.formValid(obj)) {
-                    Model.create(obj).fail(function(err) {
+                    Model.create(obj)
+                    .fail(function(err) {
                         console.error(err);
-                    }).then(function(data) {
+                    })
+                    .then(function(data) {
                         self.popup.hide();
                         self.formClear();
                         self.recipientsLoad();

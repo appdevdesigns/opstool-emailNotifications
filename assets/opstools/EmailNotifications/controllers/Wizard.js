@@ -125,26 +125,28 @@ steal(
              *
              * @return void
              */
-            clearWizard: function() {
+            clearWizard: function () {
 
-                this.controllers.Notifications.form.find( '#notificationTitle' ).val( '' );
-                this.controllers.Notifications.form.find( '#emailSubject' ).val( '' );
-                this.controllers.Notifications.form.find( '#fromName' ).val( '' );
-                this.controllers.Notifications.form.find( '#fromEmail' ).val( '' );
-                this.controllers.Notifications.form.find( '#dateStartFrom' ).val( '' );
-                this.controllers.Notifications.form.find( '#emailFrequency' ).val( 'Everyday' );
-                this.controllers.Notifications.form.find( '#dateRepeatUntil' ).val( '' );
-                this.controllers.Notifications.form.find( '#basic-settings' ).html( 'The Notification will be sent <a href="#"> Everyday</a>' );
+              this.controllers.Notifications.form.find('#notificationTitle').val('');
+              this.controllers.Notifications.form.find('#emailSubject').val('');
+              this.controllers.Notifications.form.find('#fromName').val('');
+              this.controllers.Notifications.form.find('#fromEmail').val('');
+              this.controllers.Notifications.form.find('#dateStartFrom').val('');
+              this.controllers.Notifications.form.find('#emailFrequency').val('Everyday');
+              this.controllers.Notifications.form.find('#dateRepeatUntil').val('');
+              this.controllers.Notifications.form.find('#basic-settings').html('The Notification will be sent <a href="#"> Everyday</a>');
+              this.controllers.Notifications.form.find('#eventTrigger').val('');
 
-                this.controllers.Notifications.element.find( '.tabbable ul li:nth-child(2)' ).removeClass( 'active' );
-                this.controllers.Notifications.element.find( '.tabbable ul li:nth-child(1)' ).addClass( 'active' );
-                this.controllers.Notifications.element.find( '#basic' ).addClass( 'active' );
-                this.controllers.Notifications.element.find( '#system' ).removeClass( 'active' );
+              this.controllers.Notifications.element.find('.tabbable ul li:nth-child(2)').removeClass('active');
+              this.controllers.Notifications.element.find('.tabbable ul li:nth-child(1)').addClass('active');
+              this.controllers.Notifications.element.find('#basic').addClass('active');
+              this.controllers.Notifications.element.find('#system').removeClass('active');
 
-                ////////////////////////////////////
-                // clear design a template page
-                this.controllers.Design.form.find( '#templateTitle' ).val( '' );
-                this.controllers.Design.form.find( '#templateBody' ).val( '' );
+              ////////////////////////////////////
+              // clear design a template page
+              this.controllers.Design.form.find('#templateTitle').val('');
+              this.controllers.Design.form.find('#templateBody').val('');
+
             },
 
             /** @ controllersShow
@@ -299,12 +301,6 @@ steal(
                         this.controllersShow( 'Design' );
 
                 }
-            },
-
-
-
-            '.ad-item-add click': function($el, ev) {
-                ev.preventDefault();
             },
 
 

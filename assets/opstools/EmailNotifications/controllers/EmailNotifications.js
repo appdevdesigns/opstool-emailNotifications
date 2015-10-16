@@ -14,6 +14,7 @@ steal(
 
         AD.Control.OpsTool.extend( 'EmailNotifications', {
 
+
             CONST: {
                 CREATE_NOTIFICATION: 'en-create-notification',
                 MODIFY_NOTIFICATION: 'en-modify-notification',
@@ -83,80 +84,75 @@ steal(
                     ModelNotification.findOne( {
                         id: self.wizardData.notification.id
                     }, function(notification) {
-                            self.wizardData.notification = notification._data;
-                            ModelRecipient.findOne( {
-                                id: self.wizardData.notification.recipientId
-                            }, function(recipient) {
-                                    self.wizardData.recipient = recipient._data;
 
-                                    // add the data to various views
-                                    var CtrlRecipient = self.controllers.Wizard.controllers.Recipients;
-                                    var CtrlNotification = self.controllers.Wizard.controllers.Notifications;
-                                    var CtrlTemplate = self.controllers.Wizard.controllers.Templates;
-                                    var CtrlDesign = self.controllers.Wizard.controllers.Design;
-                                    var CtrlConfirm = self.controllers.Wizard.controllers.Confirm;
+                        self.wizardData.notification = notification._data;
+                        
+                        var recipient = self.wizardData.notification.recipientId;
+                        self.wizardData.recipient = recipient._data;
+                        
+                        // add the data to various views
+                        var CtrlRecipient = self.controllers.Wizard.controllers.Recipients;
+                        var CtrlNotification = self.controllers.Wizard.controllers.Notifications;
+                        var CtrlTemplate = self.controllers.Wizard.controllers.Templates;
+                        var CtrlDesign = self.controllers.Wizard.controllers.Design;
+                        var CtrlConfirm = self.controllers.Wizard.controllers.Confirm;
 
-                                    // Select a recipient in filterdbootstrap table
-                                    CtrlRecipient.FilteredTable.select( self.wizardData.recipient );
-                                    $el = CtrlRecipient.FilteredTable.table.find( '[obj-id=' + self.wizardData.recipient.id + ']' ).parent().parent();
-                                    CtrlRecipient.FilteredTable.selected( $el );
+                        // Select a recipient in filterdbootstrap table
+                        CtrlRecipient.FilteredTable.select(self.wizardData.recipient);
+                        $el = CtrlRecipient.FilteredTable.table.find("[obj-id=" + self.wizardData.recipient.id + "]").parent().parent();
+                        CtrlRecipient.FilteredTable.selected($el);
 
-                                    // Fill notification setup page
-                                    CtrlNotification.form.find( '#notificationTitle' ).val( self.wizardData.notification.notificationTitle );
-                                    CtrlNotification.form.find( '#emailSubject' ).val( self.wizardData.notification.emailSubject );
-                                    CtrlNotification.form.find( '#fromName' ).val( self.wizardData.notification.fromName );
-                                    CtrlNotification.form.find( '#fromEmail' ).val( self.wizardData.notification.fromEmail );
+                        // Fill notification setup page
+                        CtrlNotification.form.find('#notificationTitle').val(self.wizardData.notification.notificationTitle);
+                        CtrlNotification.form.find('#emailSubject').val(self.wizardData.notification.emailSubject);
+                        CtrlNotification.form.find('#fromName').val(self.wizardData.notification.fromName);
+                        CtrlNotification.form.find('#fromEmail').val(self.wizardData.notification.fromEmail);
+                        CtrlNotification.form.find('#eventTrigger').val(self.wizardData.notification.eventTrigger);
+                        
+                        // if wizard setup type basic/system
 
-                                    // if wizard setup type basic/system
+                        if(self.wizardData.notification.setupType == "Basic"){
 
-                                    if (self.wizardData.notification.setupType == 'Basic') {
+                          CtrlNotification.form.find('#dateStartFrom').val(new Date(self.wizardData.notification.startFrom).toLocaleDateString());                             
+                          CtrlNotification.form.find('#emailFrequency').val(self.wizardData.notification.emailFrequency);
+                          
+                          if(self.wizardData.notification.repeatUntil!='0000-00-00'){
+                              
+                              CtrlNotification.form.find('#dateRepeatUntil').val(new Date(self.wizardData.notification.repeatUntil).toLocaleDateString());
+                              
+                            }else{
+                                
+                                CtrlNotification.form.find('#neverEnd').attr('checked',true);
+                                
+                                }
+                        
+                          CtrlNotification.updateNotificationBar(); // Update notification setup bar
+                          
+                        }else{
+                        
+                        // if setupType "System" then make it active
+                        
+                        CtrlNotification.element.find('.tabbable ul li:nth-child(2)').addClass('active');
+                        CtrlNotification.element.find('.tabbable ul li:nth-child(1)').removeClass('active');
+                        CtrlNotification.element.find('#basic').removeClass('active');
+                        CtrlNotification.element.find('#system').addClass('active');
 
-                                        CtrlNotification.form.find( '#dateStartFrom' ).val( new Date( self.wizardData.notification.startFrom ).toLocaleDateString() );
-                                        CtrlNotification.form.find( '#emailFrequency' ).val( self.wizardData.notification.emailFrequency );
-
-                                        if (self.wizardData.notification.repeatUntil != '0000-00-00') {
-
-                                            CtrlNotification.form.find( '#dateRepeatUntil' ).val( new Date( self.wizardData.notification.repeatUntil ).toLocaleDateString() );
-
-                                        } else {
-
-                                            CtrlNotification.form.find( '#neverEnd' ).attr( 'checked', true );
-
-                                        }
-
-                                        CtrlNotification.updateNotificationBar(); // Update notification setup bar
-
-                                    } else {
-
-                                        // if setupType "System" then make it active
-
-                                        CtrlNotification.element.find( '.tabbable ul li:nth-child(2)' ).addClass( 'active' );
-                                        CtrlNotification.element.find( '.tabbable ul li:nth-child(1)' ).removeClass( 'active' );
-                                        CtrlNotification.element.find( '#basic' ).removeClass( 'active' );
-                                        CtrlNotification.element.find( '#system' ).addClass( 'active' );
-
-                                    }
-                                    // check if there was any template
-                                    if (self.wizardData.notification.templateDesignId) {
-
-                                        ModelTemplateDesign.findOne( {
-                                            id: self.wizardData.notification.templateDesignId.id
-                                        }, function(templateDesign) {
-                                                self.wizardData.templateDesign = templateDesign;
-                                                CtrlDesign.form.find( '#templateTitle' ).val( self.wizardData.templateDesign.templateTitle );
-                                                CtrlDesign.form.find( '#templateBody' ).val( self.wizardData.templateDesign.templateBody );
-                                                //////////////////////////////
-                                                // show controller
-                                                self.controllersShow( 'Wizard' );
-                                            } );
-                                    } else {
-                                        self.controllersShow( 'Wizard' );
-                                    }
-                                } );
-                        } );
-                } );
-                var Wizard = AD.Control.get( 'opstools.EmailNotifications.Wizard' );
-                this.controllers.Wizard = new Wizard( this.element.find( '.en-wizard' ), {
+                        }
+                        // check if there was any template
+                        if (self.wizardData.notification.templateDesignId) {
+                          self.wizardData.templateDesign = self.wizardData.notification.templateDesignId;
+                          CtrlDesign.form.find('#templateTitle').val(self.wizardData.templateDesign.templateTitle);
+                          CtrlDesign.form.find('#templateBody').val(self.wizardData.templateDesign.templateBody);
+                          //////////////////////////////
+                          // show controller
+                          self.controllersShow('Wizard');
+                        } else {
+                          self.controllersShow('Wizard');
+                        }
+                    });
+                });
+                var Wizard = AD.Control.get('opstools.EmailNotifications.Wizard');
+                this.controllers.Wizard = new Wizard(this.element.find('.en-wizard'), {
                     wizardData: self.wizardData,
                     triggerCompleteNotification: this.CONST.COMPLETE_NOTIFICATION
                 } );
@@ -204,15 +200,9 @@ steal(
                 this.element.html( can.view( this.options.templateDOM, {} ) );
             },
 
-
-
-            '.ad-item-add click': function($el, ev) {
-                ev.preventDefault();
-            },
-
-
-
-            /**  @function formatDate
+            
+            
+            /**	 @function formatDate
              *
              * @param somedate.
              *

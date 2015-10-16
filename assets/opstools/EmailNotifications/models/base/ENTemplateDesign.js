@@ -5,11 +5,11 @@ steal(
     // Namespacing conventions:
     // AD.Model.Base.extend("[application].[Model]" , { static }, {instance} );  --> Object
     AD.Model.Base.extend("opstools.EmailNotifications.ENTemplateDesign", {
-        findAll: 'GET /entemplatedesign',
-        findOne: 'GET /entemplatedesign/{id}',
-        create:  'POST /entemplatedesign',
-        update:  'PUT /entemplatedesign/{id}',
-        destroy: 'DELETE /entemplatedesign/{id}',
+        findAll: 'GET /opstool-emailNotifications/entemplatedesign',
+        findOne: 'GET /opstool-emailNotifications/entemplatedesign/{id}',
+        create:  'POST /opstool-emailNotifications/entemplatedesign',
+        update:  'PUT /opstool-emailNotifications/entemplatedesign/{id}',
+        destroy: 'DELETE /opstool-emailNotifications/entemplatedesign/{id}',
         describe: function() {
             return {
           "templateTitle": "string",
