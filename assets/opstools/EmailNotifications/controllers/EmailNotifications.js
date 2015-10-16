@@ -98,7 +98,7 @@ steal(
                         var CtrlConfirm = self.controllers.Wizard.controllers.Confirm;
 
                         // Select a recipient in filterdbootstrap table
-                        CtrlRecipient.FilteredTable.select(self.wizardData.recipient);
+                        CtrlRecipient.FilteredTable.selectRow(self.wizardData.recipient);
                         $el = CtrlRecipient.FilteredTable.table.find("[obj-id=" + self.wizardData.recipient.id + "]").parent().parent();
                         CtrlRecipient.FilteredTable.selected($el);
 
