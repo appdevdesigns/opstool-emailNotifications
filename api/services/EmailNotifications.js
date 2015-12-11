@@ -259,29 +259,35 @@ module.exports= {
                     var body = ejs.render(template, data.variables);
                     
                     // Merge in dynamic recipients
-                    var recipients = row.recipientId.recipients;
-                    data.to = data.to || [];
-                    if (data.to.length > 0) {
-                        recipients += ',' + data.to.join(',');
+                    var recipients = data.to || [];
+                    if (row.recipientId.recipients) {
+                        recipients.push( row.recipientId.recipients );
                     }
+                    var recipientString = recipients.join(',');
                     
-                    self.send({
-                        notify: {
-                            id: row.id,
-                            fromName: row.fromName,
-                            fromEmail: row.fromEmail,
-                            emailSubject: row.emailSubject,
-                        },
-                        recipients: recipients,
-                        body: body
-                    })
-                    .fail(function(err) {
-                        console.error('Send error: ', err);
-                        next(err);
-                    })
-                    .done(function() {
+                    if (recipientString.length > 0) {
+                        self.send({
+                            notify: {
+                                id: row.id,
+                                fromName: row.fromName,
+                                fromEmail: row.fromEmail,
+                                emailSubject: row.emailSubject,
+                            },
+                            recipients: recipientString,
+                            body: body
+                        })
+                        .fail(function(err) {
+                            console.error('Send error: ', err);
+                            next(err);
+                        })
+                        .done(function() {
+                            next(null);
+                        });
+                    } 
+                    else {
+                        //console.log('Skipping ' + row.emailSubject + ' because no recipients');
                         next(null);
-                    });
+                    }
                 
                 } catch (err) {
                     console.error('Template merge error', err);
