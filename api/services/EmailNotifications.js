@@ -355,7 +355,10 @@ module.exports= {
         .fail(function(err){
           
             obj.status = 'Fail';
-            obj.log = err;
+            obj.log = {
+                message: err.message,
+                recipients: recipients
+            };
           
             //Create notification log
             self.createNotificationLog(obj);
@@ -363,9 +366,13 @@ module.exports= {
             
         })
         .done(function(response){
-          
+            if (typeof response == 'object') {
+                obj.log = response
+            } else {
+                obj.log = { message: response };
+            }
+            obj.log.recipients = recipients;
             obj.status = 'Success';
-            obj.log = response;
             
             //Create notification log
             self.createNotificationLog(obj);
