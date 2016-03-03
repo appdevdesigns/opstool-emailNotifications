@@ -290,7 +290,7 @@ module.exports= {
                     }
                 
                 } catch (err) {
-                    console.error('Template merge error', err);
+                    console.error('Template data merge error', err);
                     next(err);
                 }
             
@@ -303,6 +303,80 @@ module.exports= {
                 else {
                     // All done
                     dfd.resolve();
+                }
+            });
+        })
+        .fail(function(err) {
+            // DB error
+            console.error('DB error:', err);
+            dfd.reject(err);
+        });
+        
+        return dfd;
+    },
+    
+    
+    
+    /**
+     * Preview the output of an email trigger.
+     *
+     * USAGE:
+     *   Call the method directly:
+     *      EmailNotifications.previewTrigger('TRIGGER_NAME', data)
+     *      .done(function(output) {
+     *          // `output` is a string
+     *          ...
+     *      });
+     *
+     * @param string name
+     * @param object data
+     *    {
+     *        variables: {
+     *            <name>: <value>,
+     *            ...
+     *        },
+     *    }
+     * @return Deferred
+     */
+    previewTrigger: function(name, data) {
+        var dfd = AD.sal.Deferred();
+        var self = this;
+        var output = '';
+        
+        // Parse out the 'email.' prefix from the name if needed
+        name = name.replace(/^email\./, '');
+        
+        ENNotification
+        .find({ eventTrigger: name })
+        .populate('templateDesignId')
+        .then(function(list) {
+            if (!list || list.length == 0) {
+                dfd.reject(new Error('No matches'));
+                return;
+            }
+            
+            async.each(list, function(row, next) {
+                
+                var template = row.templateDesignId.templateBody;
+                try {
+                    // Merge variables into template
+                    var body = ejs.render(template, data.variables);
+                    output += body;
+                    next();
+                
+                } catch (err) {
+                    console.error('Template data merge error', err);
+                    next(err);
+                }
+            
+            }, function(err) {
+                if (err) {
+                    // Some problem with one or more entries
+                    dfd.reject(err);
+                }
+                else {
+                    // All done
+                    dfd.resolve(output);
                 }
             });
         })
