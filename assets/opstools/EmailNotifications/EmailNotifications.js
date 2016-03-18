@@ -7,9 +7,9 @@
  */
 
 steal(
-        // List your Page's dependencies here:       
-        'opstools/EmailNotifications/controllers/EmailNotifications.js',
-        'opstools/EmailNotifications/EmailNotifications.css',
-).then(function(){
+	// List your Page's dependencies here:       
+	'opstools/EmailNotifications/controllers/EmailNotifications.js',
+	'opstools/EmailNotifications/EmailNotifications.css',
+	function() {
 
-});
+	});
