@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/appdevdesigns/opstool-emailNotifications",
   "dependencies": {
-    "ad-utils": "git://github.com/appdevdesigns/ad-utils",
+    "ad-utils": "git://github.com/appdevdesigns/ad-utils#develop",
     "node-schedule": "^0.2.9"
   },
   "devDependencies": {
