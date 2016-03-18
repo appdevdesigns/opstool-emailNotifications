@@ -8,9 +8,8 @@
 
 steal(
         // List your Page's dependencies here:       
-        '//opstools/EmailNotifications/controllers/EmailNotifications.js',
-        '//opstools/EmailNotifications/EmailNotifications.css',
-        '//site/labels/opstool-EmailNotifications.js'
+        'opstools/EmailNotifications/controllers/EmailNotifications.js',
+        'opstools/EmailNotifications/EmailNotifications.css',
 ).then(function(){
 
 });
