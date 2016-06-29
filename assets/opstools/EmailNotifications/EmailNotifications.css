@@ -979,3 +979,18 @@ border-radius:0;
 .clearfix{
 overflow: auto;
 }
+
+/* Override Bootstrap style */
+.navbar {
+	min-height: auto !important;
+}
+
+/* Override RBAC style */
+.tab-content {
+	border: none !important;
+}
+
+/* Override Opsportal style */
+.op-stage {
+	overflow-y: visible !important;
+}
