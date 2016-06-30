@@ -43,14 +43,14 @@ describe('test EmailNotification.exampleFn()',function(){
             },
 
 
-            // for methods requiring a valid sails request (req) object:
-            // let's simulate one here:
-            function(next) {
+            // // for methods requiring a valid sails request (req) object:
+            // // let's simulate one here:
+            // function(next) {
 
-                // properly initialize the req object with a test.guid  using user.
-                ADCore.auth.markAuthenticated(reqObj, 'test.guid');
-                next();
-            }
+            //     // properly initialize the req object with a test.guid  using user.
+            //     ADCore.auth.markAuthenticated(reqObj, 'test.guid');
+            //     next();
+            // }
 
 
         ], function(err, results){
