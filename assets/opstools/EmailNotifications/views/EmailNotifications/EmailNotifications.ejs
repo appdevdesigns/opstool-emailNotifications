@@ -13,7 +13,7 @@
         <div class="col-xs-12 text-right btn-notification-wrap">
           <a  mockup-show="en-wizard" class="btn btn-primary btn-grey en-portal-newNotification">Create Notifications</a>
         </div>
-        <div class="col-xs-12">
+        <div style="padding-left: 15px;">
             <h2>Notification Lists</h2>
           </div>
         <div class="col-lg-8 col-md-9 col-sm-12 notification-list">
@@ -189,8 +189,8 @@
               </div>
            <!-- </form>-->
           </div><!-- /.form-notifications -->
-          <div class="col-lg-7 col-md-6 col-sm-8 col-lg-offset-1 col-md-offset-1 form-tab">
-            <p><strong>Select how you want to send notifications:</strong></p>
+          <div class="col-lg-7 col-md-6 col-sm-8 col-md-offset-1 form-tab">
+            <p><div style="padding-left: 100px; color: #433DB3;">Select how you want to send notifications:</div></p>
             <div class="tabbable tabs-left">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
@@ -244,12 +244,12 @@
                   <div class="tab-inner tab-inner-system">
                     <h3 class="text-center">System</h3>
                     <div class="form-group">
-                      <div class="input-group date col-lg-11 col-md-11 col-sm-11 col-lg-offset-1">
+                      <div class="input-group date col-lg-11 col-md-11 col-sm-11">
                         Select the event you want to use to trigger the notification being sent:
                       </div>
                     </div>
                     <div class="form-group">
-                      <div class="input-group date col-lg-8 col-md-10 col-sm-10 col-lg-offset-1 col-xs-12">
+                      <div class="input-group date col-lg-8 col-md-10 col-sm-10 col-xs-12">
                         <!--
                         <select class="form-control" name="eventTrigger">
                           <option>13 Month Report Completed</option>
@@ -304,7 +304,7 @@
 					</div>
 				<!--</form>-->
 			</div><!-- /.form-notifications -->
-			<div class="col-lg-7 col-md-7 col-sm-8 col-lg-offset-1">
+			<div class="col-lg-7 col-md-7 col-sm-8">
 				<div class="textarea-section">
 					<span>HTML</span>
 					<div class="inner-text-box">
@@ -329,7 +329,7 @@
 				<h2>Confirm Notification</h2>
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-12 block-confirm-notification">
-				<p><strong>Please recheck the notification details:</strong></p>
+				<p><h4>Please recheck the notification details:</h4></p>
 				<ul>
 					<li><strong>[[=numRecipients]] Recipients</strong> are selected</li>
 					<li>Subject is "<strong>[[= notification.notificationSubject]]</strong>"</li>
@@ -338,8 +338,8 @@
 					<li>HTML text is given using the "<strong>[[= notification.templateDesignId.templateTitle]]</strong>" Design</li>
 				</ul>
 			</div>
-			<div class="col-lg-6 col-md-7 col-sm-12 col-lg-offset-1 textarea-confirm">
-				<p><strong>This is the preview of the notification you are sending:</strong></p>
+			<div class="col-lg-6 col-md-7 col-sm-12 textarea-confirm">
+				<p><h4>This is the preview of the notification you are sending:</h4></p>
 				<div class="textarea-section">
 					<div class="inner-text-box">
 						<p class="subject-text"><em>Subject:</em> <strong>[[= notification.notificationSubject]]</strong></p>
