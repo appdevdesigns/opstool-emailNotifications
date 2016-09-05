@@ -7,11 +7,11 @@ module.exports = [
 
     { 
         key:'email.notifications', 
-        permissions:'email.notifications.view, adcore.developer', 
+        permissions:'email.notifications.view', 
         icon:'fa-envelope-o', 
         controller:'EmailNotifications',
-        label:'tool.emailNotifications',
-        context:'opsportal',
+        label:'Email Notifications',
+        // context:'opsportal',
         isController:true, 
         options:{}, 
         version:'0' 
