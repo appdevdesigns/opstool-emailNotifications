@@ -7,11 +7,24 @@
  * For more information on bootstrapping your app, check out:
  * http://sailsjs.org/#documentation
  */
+var AD = require('ad-utils');
 
 module.exports = function (cb) {
 
-	// setup our EmailNotifications API:
-	EmailNotifications.____init(cb);
+    // handle our common bootstrap setup instructions:
+        // - verify permissions are created
+        // - verify opsportal tool definitions are defined.
+    AD.module.bootstrap(__dirname, function(err){
+
+    	if (err) {
+    		cb(err);
+    	} else {
+			// setup our EmailNotifications API:
+			EmailNotifications.____init(cb);	
+    	}
+    });
+
+
 	
 	var schedule = require('node-schedule');
 
@@ -23,29 +36,5 @@ module.exports = function (cb) {
 		});
 
 	}
-
-	/*
-	 * If you have additional setup steps, then it might be better to use:
-
-	async.series([
-
-		// step 1: call EmailNotifications.____init()
-		function(next) {
-			EmailNotifications.____init(next);
-		},
-
-		// step 2: call ......
-		function(next) {
-			......(next);
-		},
-
-		// repeat for each setup routine 
-
-	],function(err, results){
-	
-		cb(err);
-	})
-
-	 */
 
 };
