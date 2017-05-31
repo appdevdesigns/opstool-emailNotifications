@@ -35,7 +35,7 @@ module.exports= {
      *
      */
     ____init:function(cb) {
-        AD.log('... <green><bold>EmailNotifications.____init()</bold></green>');
+        sails.log.info('EmailNotifications.____init()');
         
         
         // Subscribe to listen for published email event triggers
@@ -277,7 +277,7 @@ module.exports= {
                             body: body
                         })
                         .fail(function(err) {
-                            console.error('Send error: ', err);
+                            ADCore.error.log('Send error: ', err);
                             next(err);
                         })
                         .done(function() {
@@ -290,14 +290,14 @@ module.exports= {
                     }
                 
                 } catch (err) {
-                    console.error('Template data merge error', err);
+                    ADCore.error.log('Template data merge error', err);
                     next(err);
                 }
             
             }, function(err) {
                 if (err) {
                     // Some problem with one or more entries
-                    console.error('email notification entry problem', err);
+                    ADCore.error.log('email notification entry problem', err);
                     dfd.reject(err);
                 }
                 else {
@@ -308,7 +308,7 @@ module.exports= {
         })
         .fail(function(err) {
             // DB error
-            console.error('DB error:', err);
+            ADCore.error.log('DB error:', err);
             dfd.reject(err);
         });
         
@@ -365,7 +365,7 @@ module.exports= {
                     next();
                 
                 } catch (err) {
-                    console.error('Template data merge error', err);
+                    ADCore.error.log('Template data merge error', err);
                     next(err);
                 }
             
@@ -382,7 +382,7 @@ module.exports= {
         })
         .fail(function(err) {
             // DB error
-            console.error('DB error:', err);
+            ADCore.error.log('DB error:', err);
             dfd.reject(err);
         });
         
