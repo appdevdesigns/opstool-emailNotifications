@@ -235,6 +235,7 @@ module.exports= {
      *            <name>: <value>,
      *            ...
      *        },
+     *        attachments: [ <object>, ... ], // optional
      *    }
      * @return Deferred
      */
@@ -274,7 +275,8 @@ module.exports= {
                                 emailSubject: row.emailSubject,
                             },
                             recipients: recipientString,
-                            body: body
+                            body: body,
+                            attachments: data.attachments,
                         })
                         .fail(function(err) {
                             ADCore.error.log('Send error: ', err);
@@ -394,14 +396,26 @@ module.exports= {
     /**
      * Send out a notification through Nodemailer
      *
-     * @param object opts
+     * @param {object} opts
      *  {
      *      notify: <ENNotification obj>,
      *      recipients: <string>,
-     *      body: <string>
+     *      body: <string>,
+     *      attachments: <array> // optional
      *  }
      *
-     * @return Deferred
+     * @param {array} [opts.attachments]
+     * [
+     *    { 
+     *      filename: {string},
+     *      content: {string/buffer},
+     *      contentType: {string}, // optional if content is a buffer
+     *      cid: {string}
+     *    },
+     *    ...
+     * ]
+     *
+     * @return {Deferred}
      */
     send: function(opts) {
         var dfd = AD.sal.Deferred();
@@ -409,14 +423,16 @@ module.exports= {
         
         var notify = opts.notify,
             recipients = opts.recipients,
-            body = opts.body;
+            body = opts.body,
+            attachments = opts.attachments || [];
         
         //Email Options                                 
         var email = {
             subject : notify.emailSubject,
             from : notify.fromName +"<"+ notify.fromEmail +">",
             to: recipients,
-            html : body
+            html : body,
+            attachments: attachments
         };
         
         //Send Email with Nodemailer
