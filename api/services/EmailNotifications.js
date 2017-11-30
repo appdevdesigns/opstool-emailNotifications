@@ -408,7 +408,7 @@ module.exports= {
      * [
      *    { 
      *      filename: {string},
-     *      content: {string/buffer},
+     *      contents: {string/buffer},
      *      contentType: {string}, // optional if content is a buffer
      *      cid: {string}
      *    },
