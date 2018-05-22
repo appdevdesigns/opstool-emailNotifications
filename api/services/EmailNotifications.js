@@ -261,7 +261,7 @@ module.exports= {
                     
                     // Merge in dynamic recipients
                     var recipients = data.to || [];
-                    if (row.recipientId.recipients) {
+                    if (row.recipientId && row.recipientId.recipients) {
                         recipients.push( row.recipientId.recipients );
                     }
                     var recipientString = recipients.join(',');
