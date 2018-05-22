@@ -122,7 +122,7 @@ module.exports= {
      */ 
     sendScheduledEmail: function() {
         var self = this;
-        
+/*        
         // Must convert date to a string. Waterline ORM does not work well
         // when comparing a timeless 'DATE' DB field with a js Date object.
         // Also, do not use toISOString() because of timezone issues.
@@ -166,6 +166,7 @@ module.exports= {
                 });
             }
         });
+*/
     },
     
     
@@ -496,7 +497,25 @@ module.exports= {
         .then(function(response){
             //console.log(response);
         });             
-    },   
+    }, 
+
+
+
+    /**
+     * @emailForTrigger
+     * return a list of defined EmailNotifications that match a given trigger.
+     * @param {string} trigger
+     * @return {Promise}
+     */
+    emailForTrigger: function (trigger){
+
+        var cond = {};
+        if (trigger) cond.eventTrigger = trigger;
+
+        return ENNotification.find(cond)
+        // .then((list)=>{
+        // })
+    }  
     
 
 
