@@ -7,7 +7,7 @@
 
 module.exports = {
   migrate: "alter",
-  connection:"appdev_default",	
+  // connection:"appdev_default",	
   tableName:"en_notification_log",	
 
 
