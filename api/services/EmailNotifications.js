@@ -453,6 +453,12 @@ module.exports= {
           
             //Create notification log
             self.createNotificationLog(obj);
+
+            // let the administrators know about this:
+            if (err.code == 'ENOTFOUND'){
+                ADCore.error.log('EmailNotifications:Send:Error connecting to our email server:', {error:err});
+            }
+            
             dfd.reject(err);
             
         })
