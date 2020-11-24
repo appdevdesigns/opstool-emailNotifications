@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-  migrate: "alter",
+  migrate: "safe",
   // connection:"appdev_default",
   tableName:"en_notification",		// <-- namespace all your tables with 'en_' 
     	

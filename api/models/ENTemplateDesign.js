@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  migrate: "alter",
+  migrate: "safe",
   // connection:"appdev_default",
   tableName:"en_template_design",	
 
