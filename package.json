@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/appdevdesigns/opstool-emailNotifications.git"
+    "url": "https://github.com/appdevdesigns/opstool-emailNotifications.git"
   },
   "author": "Johnny Hausman",
   "license": "ISC",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/appdevdesigns/opstool-emailNotifications",
   "dependencies": {
-    "ad-utils": "git://github.com/appdevdesigns/ad-utils#develop",
+    "ad-utils": "https://github.com/appdevdesigns/ad-utils#develop",
     "node-schedule": "^0.2.9"
   },
   "devDependencies": {
